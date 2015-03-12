@@ -145,6 +145,14 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
+		/*
+		 * AmbitiousMailSender Service Providers
+		 */
+		'App\AmbitiousMailSender\Services\RepositoryServiceProvider',
+
+		// IDE helper
+		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+
 	],
 
 	/*
