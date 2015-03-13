@@ -1,11 +1,10 @@
 <?php namespace App\AmbitiousMailSender\Campaigns\Repository;
 
-use App\AmbitiousMailSender\Base\ValueObjects\DateTime;
 use App\AmbitiousMailSender\Campaigns\Campaign;
 use App\AmbitiousMailSender\Campaigns\CampaignFactory;
-use App\AmbitiousMailSender\Campaigns\CampaignModel;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use App\AmbitiousMailSender\Base\Repository\AbstractEloquentRepository;
+use App\AmbitiousMailSender\Campaigns\Gateway\EloquentCampaignModel;
 
 class EloquentCampaignRepository extends AbstractEloquentRepository implements CampaignRepository {
 
@@ -15,10 +14,10 @@ class EloquentCampaignRepository extends AbstractEloquentRepository implements C
 	protected $factory;
 
 	/**
-	 * @param CampaignModel   $model
+	 * @param EloquentCampaignModel   $model
 	 * @param CampaignFactory $campaignFactory
 	 */
-	public function __construct(CampaignModel $model, CampaignFactory $campaignFactory)
+	public function __construct(EloquentCampaignModel $model, CampaignFactory $campaignFactory)
 	{
 		$this->model = $model;
 		$this->factory = $campaignFactory;
@@ -32,16 +31,16 @@ class EloquentCampaignRepository extends AbstractEloquentRepository implements C
 	{
 		$data = [
 			'id'=>$campaign->id(),
-			'campaign_name'=>$campaign->campaign_name(),
-			'subject_line'=>$campaign->subject_line(),
-			'from_name'=>$campaign->from_name(),
-			'track_opens'=>$campaign->track_opens(),
-			'track_clicks'=>$campaign->track_clicks(),
+			'campaign_name'=>$campaign->campaignName(),
+			'subject_line'=>$campaign->subjectLine(),
+			'from_name'=>$campaign->fromName(),
+			'track_opens'=>$campaign->trackOpens(),
+			'track_clicks'=>$campaign->trackClicks(),
 			'html'=>$campaign->html(),
 			'plaintext'=>$campaign->plaintext(),
-			'from_email'=>$campaign->from_email(),
-			'reply_to_email'=>$campaign->reply_to_email(),
-			'bounce_email'=>$campaign->bounce_email(),
+			'from_email'=>$campaign->fromEmail(),
+			'reply_to_email'=>$campaign->replyToEmail(),
+			'bounce_email'=>$campaign->bounceEmail(),
 			'created_at'=>$campaign->createdAt(),
 			'updated_at'=>$campaign->updatedAt()
 		];

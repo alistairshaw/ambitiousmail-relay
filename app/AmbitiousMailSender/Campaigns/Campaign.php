@@ -9,52 +9,52 @@ class Campaign extends AbstractEntity implements Entity {
 	/**
 	 * @var string
 	 */
-	private $campaign_name;
+	protected $campaignName;
 
 	/**
 	 * @var string
 	 */
-	private $subject_line;
+	protected $subjectLine;
 
 	/**
 	 * @var string
 	 */
-	private $from_name;
+	protected $fromName;
 
 	/**
 	 * @var bool
 	 */
-	private $track_opens;
+	protected $trackOpens;
 
 	/**
 	 * @var bool
 	 */
-	private $track_clicks;
+	protected $trackClicks;
 
 	/**
 	 * @var string
 	 */
-	private $html;
+	protected $html;
 
 	/**
 	 * @var string
 	 */
-	private $plaintext;
+	protected $plaintext;
 
 	/**
 	 * @var Email
 	 */
-	private $from_email;
+	protected $fromEmail;
 
 	/**
 	 * @var Email
 	 */
-	private $reply_to_email;
+	protected $replyToEmail;
 
 	/**
 	 * @var Email
 	 */
-	private $bounce_email;
+	protected $bounceEmail;
 
 	/**
 	 * @param $data
@@ -65,8 +65,8 @@ class Campaign extends AbstractEntity implements Entity {
 		{
 			switch ($key)
 			{
-				case 'track_opens':
-				case 'track_clicks':
+				case 'trackOpens':
+				case 'trackClicks':
 					$this->{$key} = (bool)$value;
 					break;
 				default:
@@ -78,51 +78,41 @@ class Campaign extends AbstractEntity implements Entity {
 	/**
 	 * @return string
 	 */
-	public function campaign_name()
+	public function campaignName()
 	{
-		return $this->campaign_name;
-	}
-
-	/**
-	 * @param $name
-	 * @return $this
-	 */
-	public function setCampaignName($name)
-	{
-		$this->campaign_name = $name;
-		return $this;
+		return $this->campaignName;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function subject_line()
+	public function subjectLine()
 	{
-		return $this->subject_line;
+		return $this->subjectLine;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function from_name()
+	public function fromName()
 	{
-		return $this->from_name;
+		return $this->fromName;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function track_opens()
+	public function trackOpens()
 	{
-		return $this->track_opens;
+		return $this->trackOpens;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function track_clicks()
+	public function trackClicks()
 	{
-		return $this->track_clicks;
+		return $this->trackClicks;
 	}
 
 	/**
@@ -144,24 +134,24 @@ class Campaign extends AbstractEntity implements Entity {
 	/**
 	 * @return string
 	 */
-	public function from_email()
+	public function fromEmail()
 	{
-		return $this->from_email;
+		return $this->fromEmail;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function reply_to_email()
+	public function replyToEmail()
 	{
-		return $this->reply_to_email;
+		return $this->replyToEmail;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function bounce_email()
+	public function bounceEmail()
 	{
-		return $this->bounce_email;
+		return $this->bounceEmail;
 	}
 }

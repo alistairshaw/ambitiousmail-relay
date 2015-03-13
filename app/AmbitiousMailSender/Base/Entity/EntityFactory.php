@@ -8,4 +8,10 @@ interface EntityFactory {
 	 */
 	public function create($data = array());
 
+	/**
+	 * @param array $data
+	 * @return mixed
+	 */
+	public function createEntity($data = array());
+
 }

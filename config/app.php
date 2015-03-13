@@ -99,7 +99,7 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
-	| Autoloaded Service Providers
+	| Autoloaded Services Providers
 	|--------------------------------------------------------------------------
 	|
 	| The service providers listed here will be automatically loaded on the
@@ -111,7 +111,7 @@ return [
 	'providers' => [
 
 		/*
-		 * Laravel Framework Service Providers...
+		 * Laravel Framework Services Providers...
 		 */
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
@@ -137,7 +137,7 @@ return [
 		'Illuminate\View\ViewServiceProvider',
 
 		/*
-		 * Application Service Providers...
+		 * Application Services Providers...
 		 */
 		'App\Providers\AppServiceProvider',
 		'App\Providers\BusServiceProvider',
@@ -146,9 +146,11 @@ return [
 		'App\Providers\RouteServiceProvider',
 
 		/*
-		 * AmbitiousMailSender Service Providers
+		 * AmbitiousMailSender Services Providers
 		 */
-		'App\AmbitiousMailSender\Services\RepositoryServiceProvider',
+		'App\Providers\RepositoryServiceProvider',
+		'App\Providers\QueueServiceProvider',
+		'App\Providers\HttpRequestServiceProvider',
 
 		// IDE helper
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',

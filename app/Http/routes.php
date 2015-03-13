@@ -11,12 +11,25 @@
 |
 */
 
+// API Endpoints
+Route::group(array('prefix' => 'api/v1'), function ()
+{
+	Route::resource('campaign', 'ApiV1\CampaignController');
+	Route::resource('emails', 'ApiV1\EmailsController');
+});
+
+// Queue Consumers
+Route::group(array('prefix' => 'queue-consumers'), function ()
+{
+	Route::any('setup', ['as'=>'queueConsumerSetup', 'uses'=>'QueueConsumers\SetupController@index']);
+	Route::any('email-send', ['as'=>'queueConsumerEmailSend', 'uses'=>'QueueConsumers\EmailsController@index']);
+});
+
 Route::get('/', 'WelcomeController@index');
-Route::get('/campaign', 'CampaignController@index');
 
 Route::get('home', 'HomeController@index');
 
 Route::controllers([
-	'auth' => 'Auth\AuthController',
+	'auth'     => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);

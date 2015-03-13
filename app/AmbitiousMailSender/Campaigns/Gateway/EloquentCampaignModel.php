@@ -1,8 +1,8 @@
-<?php namespace App\AmbitiousMailSender\Campaigns;
+<?php namespace App\AmbitiousMailSender\Campaigns\Gateway;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CampaignModel extends Model {
+class EloquentCampaignModel extends Model {
 
 	protected $table = 'campaigns';
 

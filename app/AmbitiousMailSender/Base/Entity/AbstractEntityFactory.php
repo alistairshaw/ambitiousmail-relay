@@ -2,12 +2,7 @@
 
 use App\AmbitiousMailSender\Base\ValueObjects\DateTime;
 
-class AbstractEntityFactory implements EntityFactory {
-
-	/**
-	 * @var Entity
-	 */
-	protected $entity;
+abstract class AbstractEntityFactory implements EntityFactory {
 
 	/**
 	 * Set the ID and timestamps
@@ -16,12 +11,13 @@ class AbstractEntityFactory implements EntityFactory {
 	 */
 	public function create($data = array())
 	{
-		if (isset($data['id'])) $this->entity->setId($data['id']);
+		$entity = $this->createEntity($data);
+		if (isset($data['id'])) $entity->setId($data['id']);
 
-		$this->entity->setCreatedAt((isset($data['created_at'])) ? new DateTime($data['created_at']) : new DateTime(time()));
-		$this->entity->setUpdatedAt((isset($data['updated_at'])) ? new DateTime($data['updated_at']) : new DateTime(time()));
+		$entity->setCreatedAt((isset($data['created_at'])) ? new DateTime($data['created_at']) : new DateTime(time()));
+		$entity->setUpdatedAt((isset($data['updated_at'])) ? new DateTime($data['updated_at']) : new DateTime(time()));
 
-		return $this->entity;
+		return $entity;
 	}
 
 }

@@ -11,7 +11,7 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		'App\Console\Commands\Inspire',
+		'App\Console\Commands\QueueConsumers',
 	];
 
 	/**
@@ -22,8 +22,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('inspire')
-				 ->hourly();
+		$schedule->command('QueueConsumers')->everyFiveMinutes()->sendOutputTo(storage_path().'/logs/cron.log');
 	}
 
 }

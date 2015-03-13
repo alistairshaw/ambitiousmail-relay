@@ -8509,7 +8509,7 @@ namespace {
          * @static 
          */
         public static function get($key, $default = null, $deep = false){
-            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+            //Method inherited from \Symfony\Component\HttpFoundation\Request
             return \Illuminate\Http\Request::get($key, $default, $deep);
         }
         

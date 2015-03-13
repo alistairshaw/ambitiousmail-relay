@@ -1,4 +1,4 @@
-<?php namespace App\AmbitiousMailSender\Services;
+<?php namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +22,7 @@ class RepositoryServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerCampaignRepository();
+		$this->registerCampaignEmailRepository();
 	}
 
 	private function registerCampaignRepository()
@@ -29,6 +30,14 @@ class RepositoryServiceProvider extends ServiceProvider {
 		$this->app->bind(
 			'App\AmbitiousMailSender\Campaigns\CampaignRepository',
 			'App\AmbitiousMailSender\Campaigns\Repository\EloquentCampaignRepository'
+		);
+	}
+
+	private function registerCampaignEmailRepository()
+	{
+		$this->app->bind(
+			'App\AmbitiousMailSender\CampaignEmails\CampaignEmailRepository',
+			'App\AmbitiousMailSender\CampaignEmails\Repository\EloquentCampaignEmailRepository'
 		);
 	}
 

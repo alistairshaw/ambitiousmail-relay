@@ -1,6 +1,8 @@
 <?php namespace App\AmbitiousMailSender\Base\Entity;
 
 use App\AmbitiousMailSender\Base\ValueObjects\DateTime;
+use ReflectionClass;
+use ReflectionProperty;
 
 class AbstractEntity implements Entity {
 
@@ -65,6 +67,23 @@ class AbstractEntity implements Entity {
 	public function setUpdatedAt(DateTime $updatedAt)
 	{
 		$this->updated_at = $updatedAt;
+	}
+
+	/**
+	 * Returns array of all values from an entity
+	 */
+	public function toArray()
+	{
+		$final = array();
+		$reflect = new ReflectionClass($this);
+		$props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
+		foreach ($props as $prop)
+		{
+			$propName = $prop->getName();
+			$final[$propName] = $this->{$propName};
+			if (is_object($this->{$propName})) $final[$propName] = $this->{$propName}->__toString();
+		}
+		return $final;
 	}
 
 }

@@ -64,7 +64,8 @@ abstract class AbstractEloquentRepository implements Repository {
 		}
 		else
 		{
-			$this->model->create($data);
+			$record = $this->model->create($data);
+			$entity->setId($record->id);
 		}
 
 		return $entity;

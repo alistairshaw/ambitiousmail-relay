@@ -11,7 +11,7 @@
 				color: #B0BEC5;
 				display: table;
 				font-weight: 100;
-				font-family: 'Lato';
+				font-family: 'Lato', sans-serif;
 			}
 
 			.container {
@@ -38,8 +38,8 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">Laravel 5</div>
-				<div class="quote">{{ Inspiring::quote() }}</div>
+				<div class="title">Ambitious Digital</div>
+				<div class="quote">Are you looking for <a href="https://ambitiousdigital.co.uk">ambitiousdigital.co.uk</a>?</div>
 			</div>
 		</div>
 	</body>

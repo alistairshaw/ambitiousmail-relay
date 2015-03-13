@@ -1,13 +1,13 @@
-<?php namespace App\AmbitiousMailSender\Campaigns;
+<?php namespace App\AmbitiousMailSender\CampaignEmails;
 
 use App\AmbitiousMailSender\Base\Entity\AbstractEntityFactory;
 use App\AmbitiousMailSender\Base\Entity\EntityFactory;
 
-class CampaignFactory extends AbstractEntityFactory implements EntityFactory {
+class CampaignEmailFactory extends AbstractEntityFactory implements EntityFactory {
 
 	/**
 	 * @param array       $data
-	 * @return Campaign
+	 * @return CampaignEmail
 	 */
 	public function create($data = array())
 	{
@@ -17,11 +17,11 @@ class CampaignFactory extends AbstractEntityFactory implements EntityFactory {
 
 	/**
 	 * @param array $data
-	 * @return Campaign
+	 * @return CampaignEmail
 	 */
 	public function createEntity($data = array())
 	{
-		return new Campaign($data);
+		return new CampaignEmail($data);
 	}
 
 }
