@@ -3,9 +3,10 @@
 use App\AmbitiousMailSender\CampaignEmails\CampaignEmail;
 use App\AmbitiousMailSender\CampaignEmails\CampaignEmailFactory;
 use App\AmbitiousMailSender\CampaignEmails\CampaignEmailRepository;
+use App\AmbitiousMailSender\Campaigns\Campaign;
 
 interface MailTransport {
 
-	public function send(CampaignEmail $campaignEmail, CampaignEmailFactory $campaignEmailFactory, CampaignEmailRepository $campaignEmailRepository);
+	public function send(Campaign $campaign, CampaignEmail $campaignEmail);
 
 }

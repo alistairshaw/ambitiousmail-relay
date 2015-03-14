@@ -151,6 +151,7 @@ return [
 		'App\Providers\RepositoryServiceProvider',
 		'App\Providers\QueueServiceProvider',
 		'App\Providers\HttpRequestServiceProvider',
+		'App\Providers\MailTransportServiceProvider',
 
 		// IDE helper
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',

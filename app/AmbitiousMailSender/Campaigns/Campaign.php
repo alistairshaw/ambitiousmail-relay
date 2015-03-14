@@ -67,10 +67,12 @@ class Campaign extends AbstractEntity implements Entity {
 			{
 				case 'trackOpens':
 				case 'trackClicks':
-					$this->{$key} = (bool)$value;
+				case 'track_opens':
+				case 'track_clicks':
+					$this->setGeneric($key, (bool) $value);
 					break;
 				default:
-					$this->{$key} = $value;
+					$this->setGeneric($key, $value);
 			}
 		}
 	}

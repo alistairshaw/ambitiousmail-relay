@@ -14,10 +14,26 @@ abstract class AbstractEntityFactory implements EntityFactory {
 		$entity = $this->createEntity($data);
 		if (isset($data['id'])) $entity->setId($data['id']);
 
-		$entity->setCreatedAt((isset($data['created_at'])) ? new DateTime($data['created_at']) : new DateTime(time()));
-		$entity->setUpdatedAt((isset($data['updated_at'])) ? new DateTime($data['updated_at']) : new DateTime(time()));
+		if (isset($data['created_at']))
+		{
+			if (!is_int($data['created_at'])) $data['created_at'] = strtotime($data['created_at']);
+			$entity->setCreatedAt(new DateTime($data['created_at']));
+		}
+		else
+		{
+			$entity->setCreatedAt(new DateTime(time()));
+		}
+
+		if (isset($data['updated_at']))
+		{
+			if (!is_int($data['updated_at'])) $data['updated_at'] = strtotime($data['updated_at']);
+			$entity->setUpdatedAt(new DateTime($data['updated_at']));
+		}
+		else
+		{
+			$entity->setUpdatedAt(new DateTime(time()));
+		}
 
 		return $entity;
 	}
-
 }

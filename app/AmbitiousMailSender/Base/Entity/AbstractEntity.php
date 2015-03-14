@@ -4,7 +4,7 @@ use App\AmbitiousMailSender\Base\ValueObjects\DateTime;
 use ReflectionClass;
 use ReflectionProperty;
 
-class AbstractEntity implements Entity {
+abstract class AbstractEntity implements Entity {
 
 	/**
 	 * @var int
@@ -86,4 +86,23 @@ class AbstractEntity implements Entity {
 		return $final;
 	}
 
+	/**
+	 * @param $key
+	 * @param $value
+	 */
+	protected function setGeneric($key, $value)
+	{
+		if (property_exists($this, $key))
+		{
+			$this->{$key} = $value;
+		}
+		else
+		{
+			$key = camel_case($key);
+			if (property_exists($this, $key))
+			{
+				$this->{$key} = $value;
+			}
+		}
+	}
 }

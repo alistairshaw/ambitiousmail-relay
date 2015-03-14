@@ -19,16 +19,9 @@ class WelcomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(HttpRequest $httpRequest)
+	public function index()
 	{
-		$requestData = [
-			'url' => Route('queueConsumerEmailSend'),
-			'queue_name' => 'AmbitiousMailSenderEmailSend'
-		];
-		$httpRequest->post(Route('queueConsumerSetup'), $requestData, 1, true, false);
-		var_dump(Route('queueConsumerSetup'));
-		var_dump($requestData);
-		dd("Ok");
+		return view('welcome');
 	}
 
 }

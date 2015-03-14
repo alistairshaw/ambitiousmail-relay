@@ -5,17 +5,7 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider {
 
 	/**
-	 * Bootstrap any application services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		//
-	}
-
-	/**
-	 * Register any repositories services.
+	 * Register the repositories
 	 *
 	 * @return void
 	 */
