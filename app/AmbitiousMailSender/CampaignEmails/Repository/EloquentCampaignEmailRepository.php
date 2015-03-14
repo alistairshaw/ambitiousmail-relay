@@ -41,5 +41,4 @@ class EloquentCampaignEmailRepository extends AbstractEloquentRepository impleme
 		];
 		return $this->saveEntity($campaignEmail, $data);
 	}
-
 }

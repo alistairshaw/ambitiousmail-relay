@@ -6,9 +6,19 @@ use App\AmbitiousMailSender\Base\ValueObjects\Collection;
 interface Repository {
 
 	/**
+	 * @param int $limit
+	 * @param int $offset
 	 * @return Collection
 	 */
 	public function all($limit = 0, $offset = 0);
+
+	/**
+	 * @param array $searchParams
+	 * @param int $limit
+	 * @param int $offset
+	 * @return mixed
+	 */
+	public function search($searchParams, $limit = 0, $offset = 0);
 
 	/**
 	 * @param int $id

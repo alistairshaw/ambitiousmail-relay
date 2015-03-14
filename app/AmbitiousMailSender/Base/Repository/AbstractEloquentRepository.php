@@ -33,6 +33,39 @@ abstract class AbstractEloquentRepository implements Repository {
 			$results = $this->model->take($limit)->skip($offset)->get();
 		}
 
+		return $this->getCollection($results);
+	}
+
+	/**
+	 * @param array $searchParams
+	 * @param int $limit
+	 * @param int $offset
+	 * @return mixed
+	 */
+	public function search($searchParams, $limit = 0, $offset = 0)
+	{
+		$query = $this->model->where('id', '!=', 0);
+		foreach ($searchParams as $field=>$value)
+		{
+			$query->where($field, '=', $value);
+		}
+
+		if ($limit > 0)
+		{
+			$query->take($limit)->skip($offset);
+		}
+
+		$results = $query->get();
+
+		return $this->getCollection($results);
+	}
+
+	/**
+	 * @param $results
+	 * @return static
+	 */
+	private function getCollection($results)
+	{
 		$final = [];
 		foreach ($results as $record)
 		{

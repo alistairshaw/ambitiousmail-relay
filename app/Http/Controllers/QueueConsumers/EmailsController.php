@@ -31,8 +31,8 @@ class EmailsController extends QueueConsumerController {
 
 		if (!$message)
 		{
-			$campaignId = 10;
-			$emailsToSend = 5;
+			$campaignId = 12;
+			$emailsToSend = 2;
 		}
 		else
 		{
@@ -42,7 +42,11 @@ class EmailsController extends QueueConsumerController {
 
 		if ($campaign = $campaignRepository->find($campaignId))
 		{
-			$emails = $campaignEmailRepository->all($emailsToSend);
+			$searchParams = [
+				'campaign_id'=>$campaignId,
+				'failed'=>0
+			];
+			$emails = $campaignEmailRepository->search($searchParams, $emailsToSend);
 			foreach ($emails as $email)
 			{
 				$success = $mailTransport->send($campaign, $email);
