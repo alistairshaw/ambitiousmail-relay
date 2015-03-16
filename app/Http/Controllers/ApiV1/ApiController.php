@@ -10,6 +10,7 @@ class ApiController extends Controller {
 		$username = Request::header('php-auth-user');
 		$password = Request::header('php-auth-pw');
 
+		//todo: Create a table of authentication data so we don't have this hard coded
 		if ($username !== 'ambitiousdigital' || $password !== "pra869z5") $this->failure('Permission Denied');
 	}
 
