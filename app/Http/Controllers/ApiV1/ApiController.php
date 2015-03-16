@@ -7,10 +7,10 @@ class ApiController extends Controller {
 
 	public function __construct()
 	{
-		/*$username = Request::header('php-auth-user');
+		$username = Request::header('php-auth-user');
 		$password = Request::header('php-auth-pw');
 
-		if ($username !== 'ambitiousdigital' || $password !== "pra869z5") $this->failure('Permission Denied');*/
+		if ($username !== 'ambitiousdigital' || $password !== "pra869z5") $this->failure('Permission Denied');
 	}
 
 	/**
