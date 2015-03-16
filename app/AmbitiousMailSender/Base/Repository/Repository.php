@@ -33,13 +33,6 @@ interface Repository {
 	public function save($entity);
 
 	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return mixed
-	 */
-	public function getSome($limit = 20, $offset = 0);
-
-	/**
 	 * @param int $id
 	 * @return bool
 	 */

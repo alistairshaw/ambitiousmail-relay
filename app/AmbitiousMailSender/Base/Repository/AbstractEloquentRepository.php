@@ -77,25 +77,6 @@ abstract class AbstractEloquentRepository implements Repository {
 	}
 
 	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return mixed
-	 */
-	public function getSome($limit = 20, $offset = 0)
-	{
-		$results = $this->model->All();
-		$final   = [];
-		foreach ($results as $record)
-		{
-			$recordArray = $record->toArray();
-			array_map(function ($value) { return preg_replace('/_(.?)/e', "strtoupper('$1')", $value); }, $recordArray);
-			$final[] = $this->factory->create($recordArray);
-		}
-
-		return Collection::make($final);
-	}
-
-	/**
 	 * @param int $id
 	 * @return mixed
 	 */

@@ -16,6 +16,7 @@ Route::group(array('prefix' => 'api/v1'), function ()
 {
 	Route::resource('campaign', 'ApiV1\CampaignController');
 	Route::resource('emails', 'ApiV1\EmailsController');
+	Route::resource('events', 'ApiV1\CampaignEventsController');
 });
 
 // Queue Consumers

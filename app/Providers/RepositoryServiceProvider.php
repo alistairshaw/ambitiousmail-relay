@@ -14,6 +14,7 @@ class RepositoryServiceProvider extends ServiceProvider {
 		$this->registerCampaignRepository();
 		$this->registerCampaignEmailRepository();
 		$this->registerCampaignStatsRepository();
+		$this->registerCampaignEventRepository();
 	}
 
 	private function registerCampaignRepository()
@@ -40,4 +41,11 @@ class RepositoryServiceProvider extends ServiceProvider {
 		);
 	}
 
+	private function registerCampaignEventRepository()
+	{
+		$this->app->bind(
+			'App\AmbitiousMailSender\CampaignEvents\CampaignEventRepository',
+			'App\AmbitiousMailSender\CampaignEvents\Repository\MailgunCampaignEventRepository'
+		);
+	}
 }

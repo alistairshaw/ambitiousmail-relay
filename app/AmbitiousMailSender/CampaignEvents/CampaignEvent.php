@@ -17,11 +17,6 @@ class CampaignEvent extends AbstractEntity implements Entity {
 	protected $event;
 
 	/**
-	 * @var int
-	 */
-	protected $timestamp;
-
-	/**
 	 * @var Email
 	 */
 	protected $recipient;
