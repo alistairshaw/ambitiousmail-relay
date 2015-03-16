@@ -9,6 +9,11 @@ class CampaignEmail extends AbstractEntity implements Entity {
 	/**
 	 * @var int
 	 */
+	protected $id;
+
+	/**
+	 * @var int
+	 */
 	protected $campaignId;
 
 	/**
@@ -44,6 +49,14 @@ class CampaignEmail extends AbstractEntity implements Entity {
 	/**
 	 * @return int
 	 */
+	public function id()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * @return int
+	 */
 	public function campaignId()
 	{
 		return $this->campaignId;
@@ -55,6 +68,14 @@ class CampaignEmail extends AbstractEntity implements Entity {
 	public function emailAddress()
 	{
 		return ($this->emailAddress) ? $this->emailAddress->__toString() : null;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEmailDomain()
+	{
+		return $this->emailAddress->getDomain();
 	}
 
 	/**

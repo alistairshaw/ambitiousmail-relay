@@ -2,9 +2,7 @@
 
 use App\AmbitiousMailSender\Base\Services\HttpRequest\HttpRequest;
 use App\AmbitiousMailSender\Base\Services\MailTransport\MailTransport;
-use App\AmbitiousMailSender\CampaignEmails\CampaignEmailFactory;
 use App\AmbitiousMailSender\CampaignEmails\CampaignEmailRepository;
-use App\AmbitiousMailSender\Campaigns\CampaignFactory;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use Request;
 
@@ -12,17 +10,13 @@ class EmailsController extends QueueConsumerController {
 
 	/**
 	 * @param HttpRequest             $httpRequest
-	 * @param CampaignFactory         $campaignFactory
 	 * @param CampaignRepository      $campaignRepository
-	 * @param CampaignEmailFactory    $campaignEmailFactory
 	 * @param CampaignEmailRepository $campaignEmailRepository
 	 * @param MailTransport           $mailTransport
 	 */
 	function index(
 		HttpRequest $httpRequest,
-		CampaignFactory $campaignFactory,
 		CampaignRepository $campaignRepository,
-		CampaignEmailFactory $campaignEmailFactory,
 		CampaignEmailRepository $campaignEmailRepository,
 		MailTransport $mailTransport
 	) {
@@ -31,7 +25,8 @@ class EmailsController extends QueueConsumerController {
 
 		if (!$message)
 		{
-			$campaignId = 12;
+			// this is for debugging
+			$campaignId = 17;
 			$emailsToSend = 2;
 		}
 		else
@@ -49,7 +44,7 @@ class EmailsController extends QueueConsumerController {
 			$emails = $campaignEmailRepository->search($searchParams, $emailsToSend);
 			foreach ($emails as $email)
 			{
-				$success = $mailTransport->send($campaign, $email);
+				$success = $mailTransport->send($campaign, $email, $campaignRepository);
 				if ($success)
 				{
 					$campaignEmailRepository->destroy($email->id());

@@ -3,6 +3,7 @@
 use App;
 use App\AmbitiousMailSender\CampaignEmails\CampaignEmail;
 use App\AmbitiousMailSender\Campaigns\Campaign;
+use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use Config;
 use Swift_Mailer;
 use Swift_SmtpTransport;
@@ -11,11 +12,12 @@ use Swift_Message;
 class SMTPMailTransport extends AbstractMailTransport implements MailTransport {
 
 	/**
-	 * @param Campaign      $campaign
-	 * @param CampaignEmail $campaignEmail
+	 * @param Campaign           $campaign
+	 * @param CampaignEmail      $campaignEmail
+	 * @param CampaignRepository $campaignRepository
 	 * @return bool
 	 */
-	public function send(Campaign $campaign, CampaignEmail $campaignEmail)
+	public function send(Campaign $campaign, CampaignEmail $campaignEmail, CampaignRepository $campaignRepository)
 	{
 		$name = $this->getNameFromVariables($campaignEmail->variables());
 		$html = $this->insertVariables($campaign->html(), $campaignEmail->variables());

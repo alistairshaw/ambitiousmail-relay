@@ -28,6 +28,15 @@ class Email extends ValueObject {
 	}
 
 	/**
+	 * Gets only the domain part of the email address
+	 * @return string
+	 */
+	public function getDomain()
+	{
+		return substr(strrchr($this->email, "@"), 1);
+	}
+
+	/**
 	 * Return the mysql formatted dateTime
 	 * @return bool|string
 	 */

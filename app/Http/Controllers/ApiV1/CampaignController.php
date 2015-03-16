@@ -2,6 +2,7 @@
 
 use App\AmbitiousMailSender\Campaigns\CampaignFactory;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
+use App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository;
 use Request;
 
 class CampaignController extends ApiController {
@@ -31,6 +32,20 @@ class CampaignController extends ApiController {
 		$this->success(['id'=>$campaign->id()]);
 	}
 
+	/**
+	 * @param int                     $campaignId
+	 * @param CampaignStatsRepository $campaignStatsRepository
+	 * @param CampaignRepository      $campaignRepository
+	 */
+	public function show($campaignId, CampaignStatsRepository $campaignStatsRepository, CampaignRepository $campaignRepository)
+	{
+		$campaign = $campaignRepository->find($campaignId);
+		if (!$campaign) $this->failure('Invalid Campaign ID');
 
+		$campaignStatsRepository->setDomain($campaign->getFromEmailDomain());
+		$campaignStats = $campaignStatsRepository->find($campaign->remoteCampaignId());
+
+		$this->success($campaignStats->stats());
+	}
 }
 

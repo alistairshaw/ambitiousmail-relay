@@ -31,6 +31,7 @@ class EloquentCampaignRepository extends AbstractEloquentRepository implements C
 	{
 		$data = [
 			'id'=>$campaign->id(),
+			'remote_campaign_id'=>$campaign->remoteCampaignId(),
 			'campaign_name'=>$campaign->campaignName(),
 			'subject_line'=>$campaign->subjectLine(),
 			'from_name'=>$campaign->fromName(),

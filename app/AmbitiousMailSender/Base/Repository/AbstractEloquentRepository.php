@@ -120,10 +120,10 @@ abstract class AbstractEloquentRepository implements Repository {
 	 */
 	public function saveEntity(Entity $entity, $data = array())
 	{
-		if ($entity->id())
+		if ($record = $this->model->find($entity->id()))
 		{
 			if (isset($data['updated_at'])) $data['updated_at'] = date("Y-m-d H:i:s");
-			$this->model->update($data);
+			$record->update($data);
 		}
 		else
 		{

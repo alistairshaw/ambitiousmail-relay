@@ -9,6 +9,11 @@ class Campaign extends AbstractEntity implements Entity {
 	/**
 	 * @var string
 	 */
+	protected $remoteCampaignId;
+
+	/**
+	 * @var string
+	 */
 	protected $campaignName;
 
 	/**
@@ -63,18 +68,24 @@ class Campaign extends AbstractEntity implements Entity {
 	{
 		foreach ($data as $key => $value)
 		{
-			switch ($key)
-			{
-				case 'trackOpens':
-				case 'trackClicks':
-				case 'track_opens':
-				case 'track_clicks':
-					$this->setGeneric($key, (bool) $value);
-					break;
-				default:
-					$this->setGeneric($key, $value);
-			}
+			$this->setGeneric($key, $value);
 		}
+	}
+
+	/**
+	 * @param $id
+	 */
+	public function setRemoteCampaignId($id)
+	{
+		$this->remoteCampaignId = $id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function remoteCampaignId()
+	{
+		return $this->remoteCampaignId;
 	}
 
 	/**
@@ -139,6 +150,14 @@ class Campaign extends AbstractEntity implements Entity {
 	public function fromEmail()
 	{
 		return $this->fromEmail;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFromEmailDomain()
+	{
+		return $this->fromEmail->getDomain();
 	}
 
 	/**

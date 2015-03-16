@@ -13,6 +13,7 @@ class RepositoryServiceProvider extends ServiceProvider {
 	{
 		$this->registerCampaignRepository();
 		$this->registerCampaignEmailRepository();
+		$this->registerCampaignStatsRepository();
 	}
 
 	private function registerCampaignRepository()
@@ -28,6 +29,14 @@ class RepositoryServiceProvider extends ServiceProvider {
 		$this->app->bind(
 			'App\AmbitiousMailSender\CampaignEmails\CampaignEmailRepository',
 			'App\AmbitiousMailSender\CampaignEmails\Repository\EloquentCampaignEmailRepository'
+		);
+	}
+
+	private function registerCampaignStatsRepository()
+	{
+		$this->app->bind(
+			'App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository',
+			'App\AmbitiousMailSender\CampaignStats\Repository\MailgunCampaignStatsRepository'
 		);
 	}
 
