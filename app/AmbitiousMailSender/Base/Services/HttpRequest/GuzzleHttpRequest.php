@@ -5,7 +5,7 @@ use GuzzleHttp\Client;
 class GuzzleHttpRequest implements HttpRequest {
 
 	/**
-	 * @var integer
+	 * @var integer x
 	 */
 	private $statusCode;
 
