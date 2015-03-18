@@ -29,8 +29,8 @@ abstract class AbstractMailTransport implements MailTransport {
 
 		foreach ($variables as $key => $value)
 		{
-			if ($key == 'first_name' || $key == 'firstname' || $key = 'name') $name[0] = $value;
-			if ($key == 'last_name' || $key == 'lastname' || $key = 'surname') $name[1] = $value;
+			if ($key == 'first_name' || $key == 'firstname' || $key == 'name') $name[0] = $value;
+			if ($key == 'last_name' || $key == 'lastname' || $key == 'surname') $name[1] = $value;
 		}
 
 		$finalName = [];
