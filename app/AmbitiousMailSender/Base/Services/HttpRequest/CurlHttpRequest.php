@@ -2,7 +2,7 @@
 
 class CurlHttpRequest implements HttpRequest {
 
-	private $debugMode = true;
+	private $debugMode = false;
 
 	/**
 	 * @param string $url
