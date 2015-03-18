@@ -33,7 +33,7 @@ class QueueConsumers extends Command {
 				'url'        => $url,
 				'queue_name' => $queue_name
 			];
-			$httpRequest->post($queue_consumer_url, $requestData, 1, true, false);
+			var_dump($httpRequest->post($queue_consumer_url, $requestData, 1, true, false));
 		}
 	}
 }

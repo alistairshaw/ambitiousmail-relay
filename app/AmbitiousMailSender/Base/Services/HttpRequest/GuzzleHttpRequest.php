@@ -1,6 +1,7 @@
 <?php namespace App\AmbitiousMailSender\Base\Services\HttpRequest;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ServerException;
 
 class GuzzleHttpRequest implements HttpRequest {
 
@@ -22,14 +23,15 @@ class GuzzleHttpRequest implements HttpRequest {
 		$client = new Client();
 
 		$request = $client->post($url, [
-			'body' => $data,
-			'future' => $async,
+			'body'    => $data,
+			'future'  => $async,
 			'timeout' => $timeout
 		]);
 
 		if ($returnResult)
 		{
 			$this->setStatusCode($request->getStatusCode());
+
 			return $request->getBody();
 		}
 
@@ -49,14 +51,15 @@ class GuzzleHttpRequest implements HttpRequest {
 		$client = new Client();
 
 		$request = $client->get($url, [
-			'params' => $data,
-			'future' => $async,
+			'params'  => $data,
+			'future'  => $async,
 			'timeout' => $timeout
 		]);
 
 		if ($returnResult)
 		{
 			$this->setStatusCode($request->getStatusCode());
+
 			return $request->getBody();
 		}
 

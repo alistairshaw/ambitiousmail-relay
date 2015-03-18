@@ -11,7 +11,7 @@ class HttpRequestServiceProvider extends ServiceProvider {
 	{
 		$this->app->bind(
 			'App\AmbitiousMailSender\Base\Services\HttpRequest\HttpRequest',
-			'App\AmbitiousMailSender\Base\Services\HttpRequest\GuzzleHttpRequest'
+			'App\AmbitiousMailSender\Base\Services\HttpRequest\CurlHttpRequest'
 		);
 	}
 
