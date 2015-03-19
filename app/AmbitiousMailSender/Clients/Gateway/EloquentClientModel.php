@@ -7,7 +7,7 @@ class EloquentClientModel extends Model {
 
 	protected $table = 'clients';
 
-	protected $fillable = ['name', 'api_key', 'web_hook_end_point', 'domain', 'created_at', 'updated_at'];
+	protected $fillable = ['name', 'api_key', 'web_hook_end_point', 'created_at', 'updated_at'];
 
 	/**
 	 * @param $domain

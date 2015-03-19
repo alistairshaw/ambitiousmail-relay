@@ -21,11 +21,6 @@ class Client extends AbstractEntity implements Entity {
 	protected $webHookEndPoint;
 
 	/**
-	 * @var string
-	 */
-	protected $domain;
-
-	/**
 	 * @return string
 	 */
 	public function name()
