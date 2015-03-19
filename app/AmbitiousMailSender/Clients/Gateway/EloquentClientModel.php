@@ -10,12 +10,12 @@ class EloquentClientModel extends Model {
 	protected $fillable = ['name', 'api_key', 'web_hook_end_point', 'created_at', 'updated_at'];
 
 	/**
-	 * @param $domain
+	 * @param $name
 	 * @return mixed
 	 */
-	public function scopeHasDomain($query, $domain)
+	public function scopeHasName($query, $name)
 	{
-		return $query->whereDomain($domain);
+		return $query->whereName($name);
 	}
 
 }

@@ -7,6 +7,11 @@ use App\AmbitiousMailSender\Base\ValueObjects\Email;
 class Campaign extends AbstractEntity implements Entity {
 
 	/**
+	 * @var int
+	 */
+	protected $clientId;
+
+	/**
 	 * @var string
 	 */
 	protected $remoteCampaignId;
@@ -62,9 +67,12 @@ class Campaign extends AbstractEntity implements Entity {
 	protected $bounceEmail;
 
 	/**
-	 * @var string
+	 * @return int
 	 */
-	protected $domain;
+	public function clientId()
+	{
+		return $this->clientId;
+	}
 
 	/**
 	 * @param $id
@@ -168,13 +176,5 @@ class Campaign extends AbstractEntity implements Entity {
 	public function bounceEmail()
 	{
 		return $this->bounceEmail;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function domain()
-	{
-		return $this->domain;
 	}
 }

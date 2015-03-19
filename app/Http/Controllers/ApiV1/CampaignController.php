@@ -14,6 +14,7 @@ class CampaignController extends ApiController {
 	public function store(CampaignFactory $campaignFactory, CampaignRepository $campaignRepository)
 	{
 		$campaign = $campaignFactory->create([
+			'clientId'=>$this->client_id,
 			'campaignName'=>Request::input('campaign_name'),
 			'subjectLine'=>Request::input('subject_line'),
 			'fromName'=>Request::input('from_name'),
@@ -23,8 +24,7 @@ class CampaignController extends ApiController {
 			'plaintext'=>Request::input('plaintext'),
 			'fromEmail'=>Request::input('from_email'),
 			'replyToEmail'=>Request::input('reply_to_email'),
-			'bounceEmail'=>Request::input('bounce_email'),
-			'domain'=>Request::input('domain')
+			'bounceEmail'=>Request::input('bounce_email')
 		]);
 
 		$campaignRepository->save($campaign);

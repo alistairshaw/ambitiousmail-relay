@@ -11,9 +11,9 @@ interface ClientRepository extends Repository {
 	public function find($id);
 
 	/**
-	 * @param $domain
-	 * @return Client
+	 * @param $username
+	 * @return mixed
 	 */
-	public function getByDomain($domain);
+	public function findByName($username);
 
 }

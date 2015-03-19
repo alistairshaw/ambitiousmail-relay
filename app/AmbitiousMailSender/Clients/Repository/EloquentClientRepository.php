@@ -41,12 +41,12 @@ class EloquentClientRepository extends AbstractEloquentRepository implements Cli
 	}
 
 	/**
-	 * @param $domain
+	 * @param $name
 	 * @return Client
 	 */
-	public function getByDomain($domain)
+	public function findByName($name)
 	{
-		$client = $this->model->hasDomain($domain)->first();
+		if (!$client = $this->model->hasName($name)->first()) return null;
 		return $this->factory->create($client->toArray());
 	}
 }

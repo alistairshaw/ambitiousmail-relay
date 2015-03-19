@@ -1,17 +1,25 @@
 <?php namespace App\Http\Controllers\ApiV1;
 
+use App\AmbitiousMailSender\Clients\ClientRepository;
 use App\Http\Controllers\Controller;
 use Request;
 
 class ApiController extends Controller {
 
-	public function __construct()
+	/**
+	 * @var integer
+	 */
+	protected $client_id;
+
+	public function __construct(ClientRepository $clientRepository)
 	{
 		$username = Request::header('php-auth-user');
 		$password = Request::header('php-auth-pw');
 
-		//todo: Create a table of authentication data so we don't have this hard coded
-		if ($username !== 'ambitiousdigital' || $password !== "pra869z5") $this->failure('Permission Denied');
+		if (!$client = $clientRepository->findByName($username)) $this->failure('Permission Denied');
+		if ($client->apiKey() !== $password) $this->failure('Permission Denied');
+
+		$this->client_id = $client->id();
 	}
 
 	/**

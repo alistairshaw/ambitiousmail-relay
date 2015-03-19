@@ -12,7 +12,7 @@ class WebHooksController extends Controller {
 	public function index(WebHookReceiver $webHookReceiver, WebHookRelay $webHookRelay, ClientRepository $clientRepository, HttpRequest $httpRequest)
 	{
 		$vars = $webHookReceiver->receiveHook(Request::all());
-		$client = $clientRepository->getByDomain('mg.amsvr.co.uk');
+		//todo: get client by checking the domain against campaigns or something?
 		$webHookRelay->relay($vars, $client, $httpRequest);
 	}
 
