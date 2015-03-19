@@ -156,7 +156,7 @@ class Campaign extends AbstractEntity implements Entity {
 	 */
 	public function fromEmail()
 	{
-		return $this->fromEmail;
+		return $this->fromEmail->__toString();
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Campaign extends AbstractEntity implements Entity {
 	 */
 	public function replyToEmail()
 	{
-		return $this->replyToEmail;
+		return $this->replyToEmail->__toString();;
 	}
 
 	/**
@@ -180,7 +180,7 @@ class Campaign extends AbstractEntity implements Entity {
 	 */
 	public function bounceEmail()
 	{
-		return $this->bounceEmail;
+		return $this->bounceEmail->__toString();;
 	}
 
 	/**
