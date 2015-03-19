@@ -36,7 +36,7 @@ class AmbitiousMailSenderServiceProvider extends ServiceProvider {
 	{
 		$this->app->bind(
 			'App\AmbitiousMailSender\Base\Services\MailTransport\MailTransport',
-			'App\AmbitiousMailSender\Base\Services\MailTransport\MailgunMailTransport'
+			'App\AmbitiousMailSender\Base\Services\MailTransport\SMTPMailTransport'
 		);
 	}
 
