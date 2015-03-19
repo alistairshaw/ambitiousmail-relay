@@ -15,6 +15,7 @@ class MailTransportTest extends TestCase {
 	public function testMailContent()
 	{
 		$campaignData['subjectLine'] = 'This is my subject';
+		$campaignData['html']        = '<p>Something something <a href="[[unsubscribe]]">Unsubscribe</a></p>';
 		$campaign                    = new Campaign($campaignData);
 
 		$campaignEmailData = [
@@ -31,6 +32,7 @@ class MailTransportTest extends TestCase {
 		$mail          = $mailTransport->send($campaign, $campaignEmail);
 		$this->assertEquals($mail['subject'], $campaignData['subjectLine']);
 		$this->assertEquals($mail['to'], 'Alistair Shaw <alistairshaw@gmail.com>');
+		$this->assertEquals($mail['html'], '<p>Something something <a href="http://this.is.a/link.html">Unsubscribe</a></p>');
 	}
 
 }
