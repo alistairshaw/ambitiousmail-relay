@@ -24,10 +24,11 @@ class CampaignController extends ApiController {
 			'plaintext'=>Request::input('plaintext'),
 			'fromEmail'=>Request::input('from_email'),
 			'replyToEmail'=>Request::input('reply_to_email'),
-			'bounceEmail'=>Request::input('bounce_email')
+			'bounceEmail'=>Request::input('bounce_email'),
+			'domain'=>Request::input('domain')
 		]);
 
-		$campaignRepository->save($campaign);
+		$campaign = $campaignRepository->save($campaign);
 
 		if (!$campaign) $this->failure('Unable to create new campaign');
 		$this->success(['id'=>$campaign->id()]);

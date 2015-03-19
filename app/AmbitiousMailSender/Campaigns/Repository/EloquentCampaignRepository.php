@@ -43,6 +43,7 @@ class EloquentCampaignRepository extends AbstractEloquentRepository implements C
 			'from_email'=>$campaign->fromEmail(),
 			'reply_to_email'=>$campaign->replyToEmail(),
 			'bounce_email'=>$campaign->bounceEmail(),
+			'domain'=>$campaign->domain(),
 			'created_at'=>$campaign->createdAt(),
 			'updated_at'=>$campaign->updatedAt()
 		];

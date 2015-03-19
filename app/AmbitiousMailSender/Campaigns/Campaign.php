@@ -67,6 +67,11 @@ class Campaign extends AbstractEntity implements Entity {
 	protected $bounceEmail;
 
 	/**
+	 * @var string
+	 */
+	protected $domain;
+
+	/**
 	 * @return int
 	 */
 	public function clientId()
@@ -176,5 +181,13 @@ class Campaign extends AbstractEntity implements Entity {
 	public function bounceEmail()
 	{
 		return $this->bounceEmail;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function domain()
+	{
+		return $this->domain;
 	}
 }

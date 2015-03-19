@@ -16,8 +16,6 @@ class EmailsController extends ApiController {
 
 		$campaignId = Request::input('campaign_id');
 
-		//todo: refactor the below into some sort of MailQueue service
-
 		foreach ($emails as $email)
 		{
 			$campaignEmail = $campaignEmailFactory->create([
