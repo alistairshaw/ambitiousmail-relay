@@ -17,7 +17,7 @@ class CampaignEventsController extends ApiController {
 		if ( ! $campaign) $this->failure('Invalid Campaign ID');
 
 		// possible events to pass
-		$availableEvents = ['clicked', 'opened', 'complained', 'bounced'];
+		$availableEvents = ['clicked', 'opened', 'complained', 'bounced', 'dropped'];
 		$event           = Request::get('event');
 
 		if ($event && ! in_array($event, $availableEvents)) $this->failure('Invalid parameter: event. Options are ' . implode(" | ", $availableEvents));

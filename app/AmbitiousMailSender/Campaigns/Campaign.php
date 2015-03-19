@@ -62,17 +62,6 @@ class Campaign extends AbstractEntity implements Entity {
 	protected $bounceEmail;
 
 	/**
-	 * @param $data
-	 */
-	public function __construct($data)
-	{
-		foreach ($data as $key => $value)
-		{
-			$this->setGeneric($key, $value);
-		}
-	}
-
-	/**
 	 * @param $id
 	 */
 	public function setRemoteCampaignId($id)

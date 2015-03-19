@@ -3,12 +3,7 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 
-class GuzzleHttpRequest implements HttpRequest {
-
-	/**
-	 * @var integer x
-	 */
-	private $statusCode;
+class GuzzleHttpRequest extends AbstractHttpRequest implements HttpRequest {
 
 	/**
 	 * @param string $url
@@ -22,11 +17,15 @@ class GuzzleHttpRequest implements HttpRequest {
 	{
 		$client = new Client();
 
-		$request = $client->post($url, [
+		$requestOptions = [
 			'body'    => $data,
 			'future'  => $async,
 			'timeout' => $timeout
-		]);
+		];
+
+		if ($this->username && $this->password) $requestOptions['auth'] = [$this->username, $this->password];
+
+		$request = $client->post($url, $requestOptions);
 
 		if ($returnResult)
 		{
@@ -50,11 +49,15 @@ class GuzzleHttpRequest implements HttpRequest {
 	{
 		$client = new Client();
 
-		$request = $client->get($url, [
+		$requestOptions = [
 			'params'  => $data,
 			'future'  => $async,
 			'timeout' => $timeout
-		]);
+		];
+
+		if ($this->username && $this->password) $requestOptions['auth'] = [$this->username, $this->password];
+
+		$request = $client->get($url, $requestOptions);
 
 		if ($returnResult)
 		{
@@ -64,21 +67,5 @@ class GuzzleHttpRequest implements HttpRequest {
 		}
 
 		return null;
-	}
-
-	/**
-	 * @return integer
-	 */
-	public function statusCode()
-	{
-		return $this->statusCode;
-	}
-
-	/**
-	 * @param $StatusCode
-	 */
-	private function setStatusCode($StatusCode)
-	{
-		$this->statusCode = $StatusCode;
 	}
 }

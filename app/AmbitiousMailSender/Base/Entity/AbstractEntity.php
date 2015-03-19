@@ -22,6 +22,17 @@ abstract class AbstractEntity implements Entity {
 	protected $updated_at;
 
 	/**
+	 * @param $data
+	 */
+	public function __construct($data)
+	{
+		foreach ($data as $key => $value)
+		{
+			$this->setGeneric($key, $value);
+		}
+	}
+
+	/**
 	 * @return int
 	 */
 	public function id()

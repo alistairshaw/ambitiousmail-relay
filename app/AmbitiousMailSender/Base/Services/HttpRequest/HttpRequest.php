@@ -27,4 +27,11 @@ interface HttpRequest {
 	 */
 	public function statusCode();
 
+	/**
+	 * @param $username
+	 * @param $password
+	 * @return mixed
+	 */
+	public function setAuth($username, $password);
+
 }

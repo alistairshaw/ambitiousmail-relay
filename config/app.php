@@ -146,12 +146,10 @@ return [
 		'App\Providers\RouteServiceProvider',
 
 		/*
-		 * AmbitiousMailSender Services Providers
+		 * AmbitiousMailSender Providers
 		 */
 		'App\Providers\RepositoryServiceProvider',
-		'App\Providers\QueueServiceProvider',
-		'App\Providers\HttpRequestServiceProvider',
-		'App\Providers\MailTransportServiceProvider',
+		'App\Providers\AmbitiousMailSenderServiceProvider',
 
 		// IDE helper
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',

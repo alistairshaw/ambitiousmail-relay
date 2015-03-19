@@ -1,6 +1,8 @@
 <?php namespace App\AmbitiousMailSender\Base\Services\HttpRequest;
 
-class CurlHttpRequest implements HttpRequest {
+use App\AmbitiousMailSender\Base\Entity\AbstractEntity;
+
+class CurlHttpRequest extends AbstractHttpRequest implements HttpRequest {
 
 	private $debugMode = false;
 
@@ -14,7 +16,9 @@ class CurlHttpRequest implements HttpRequest {
 	 */
 	public function post($url, $data = array(), $timeout = 300, $async = false, $returnResult = true)
 	{
-		return $this->_do_request($url, 'POST', $data);
+		$result = $this->_do_request($url, 'POST', $data, $timeout, $async);
+
+		return ($returnResult) ? $result : null;
 	}
 
 	/**
@@ -27,29 +31,23 @@ class CurlHttpRequest implements HttpRequest {
 	 */
 	public function get($url, $data = array(), $timeout = 300, $async = false, $returnResult = true)
 	{
-		return $this->_do_request($url, 'GET');
-	}
+		$result = $this->_do_request($url, 'GET', $data, $timeout, $async);
 
-	/**
-	 * @return integer
-	 */
-	public function statusCode()
-	{
-		return $this->statusCode();
+		return ($returnResult) ? $result : null;
 	}
 
 	/**
 	 * Does the CURL request, returns the response or sets an error message
 	 *
-	 * @param  String $url Only pass the end of the URL, the main endpoint is set in the constructor
-	 * @param  String $method
-	 * @param  array $params Only pass in additional post parameters if required
-	 *
+	 * @param string $url Only pass the end of the URL, the main endpoint is set in the constructor
+	 * @param string $method
+	 * @param array  $params Only pass in additional post parameters if required
+	 * @param int    $timeout
+	 * @param bool   $async
 	 * @return array
 	 */
-	private function _do_request($url, $method = 'GET', $params = array())
+	private function _do_request($url, $method = 'GET', $params = array(), $timeout = 300, $async = false)
 	{
-
 		//Build the final URL
 		$final_url = $url;
 
@@ -65,8 +63,11 @@ class CurlHttpRequest implements HttpRequest {
 		curl_setopt_array($curl, array(
 			CURLOPT_RETURNTRANSFER => 1,
 			CURLOPT_URL            => $final_url,
-			CURLOPT_HTTPGET        => 1
+			CURLOPT_HTTPGET        => 1,
+			CURLOPT_TIMEOUT        => $timeout
 		));
+
+		if ($this->username && $this->password) curl_setopt($curl, CURLOPT_USERPWD, $this->username . ':' . $this->password);
 
 		switch ($method)
 		{
@@ -88,6 +89,7 @@ class CurlHttpRequest implements HttpRequest {
 
 		$resp = curl_exec($curl);
 
+		$this->setStatusCode(curl_getinfo($curl, CURLINFO_HTTP_CODE));
 		$this->error_message = curl_error($curl);
 		//Close Request
 		curl_close($curl);

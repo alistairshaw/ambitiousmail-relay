@@ -21,15 +21,4 @@ class CampaignEvent extends AbstractEntity implements Entity {
 	 */
 	protected $recipient;
 
-	/**
-	 * @param $data
-	 */
-	public function __construct($data)
-	{
-		foreach ($data as $key => $value)
-		{
-			$this->setGeneric($key, $value);
-		}
-	}
-
 }
