@@ -49,4 +49,14 @@ class EloquentCampaignRepository extends AbstractEloquentRepository implements C
 		];
 		return $this->saveEntity($campaign, $data);
 	}
+
+	/**
+	 * @param $domain
+	 * @return Campaign
+	 */
+	public function findByDomain($domain)
+	{
+		$campaign = $this->model->domain($domain)->orderBy('id', 'desc')->first();
+		return $this->factory->create($campaign->toArray());
+	}
 }

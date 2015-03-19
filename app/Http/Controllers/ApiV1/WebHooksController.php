@@ -3,16 +3,25 @@
 use App\AmbitiousMailSender\Base\Services\HttpRequest\HttpRequest;
 use App\AmbitiousMailSender\Base\Services\WebHookReceiver\WebHookReceiver;
 use App\AmbitiousMailSender\Base\Services\WebHookRelay\WebHookRelay;
+use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use App\AmbitiousMailSender\Clients\ClientRepository;
 use App\Http\Controllers\Controller;
 use Request;
 
 class WebHooksController extends Controller {
 
-	public function index(WebHookReceiver $webHookReceiver, WebHookRelay $webHookRelay, ClientRepository $clientRepository, HttpRequest $httpRequest)
+	/**
+	 * @param WebHookReceiver    $webHookReceiver
+	 * @param WebHookRelay       $webHookRelay
+	 * @param CampaignRepository $campaignRepository
+	 * @param ClientRepository   $clientRepository
+	 * @param HttpRequest        $httpRequest
+	 */
+	public function index(WebHookReceiver $webHookReceiver, WebHookRelay $webHookRelay, CampaignRepository $campaignRepository, ClientRepository $clientRepository, HttpRequest $httpRequest)
 	{
 		$vars = $webHookReceiver->receiveHook(Request::all());
-		//todo: get client by checking the domain against campaigns or something?
+		$campaign = $campaignRepository->findByDomain($vars['domain']);
+		$client = $clientRepository->find($campaign->clientId());
 		$webHookRelay->relay($vars, $client, $httpRequest);
 	}
 

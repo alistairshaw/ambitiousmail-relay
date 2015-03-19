@@ -10,4 +10,10 @@ interface CampaignRepository extends Repository {
 	 */
 	public function find($id);
 
+	/**
+	 * @param $domain
+	 * @return Campaign
+	 */
+	public function findByDomain($domain);
+
 }
