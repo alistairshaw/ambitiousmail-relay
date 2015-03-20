@@ -37,7 +37,6 @@ class EmailsController extends QueueConsumerController {
 		}
 
 		Log::info('Email Sending Queue Consumer - Campaign: ' . $campaignId);
-		exit();
 
 		if ($campaign = $campaignRepository->find($campaignId))
 		{
