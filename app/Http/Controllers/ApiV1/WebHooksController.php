@@ -6,6 +6,7 @@ use App\AmbitiousMailSender\Base\Services\WebHookRelay\WebHookRelay;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use App\AmbitiousMailSender\Clients\ClientRepository;
 use App\Http\Controllers\Controller;
+use Log;
 use Request;
 
 class WebHooksController extends Controller {
@@ -20,6 +21,9 @@ class WebHooksController extends Controller {
 	public function index(WebHookReceiver $webHookReceiver, WebHookRelay $webHookRelay, CampaignRepository $campaignRepository, ClientRepository $clientRepository, HttpRequest $httpRequest)
 	{
 		$vars = $webHookReceiver->receiveHook(Request::all());
+
+		Log::info('Web Hook Received : ' . print_r($vars, true));
+
 		$campaign = $campaignRepository->findByDomain($vars['domain']);
 		$client = $clientRepository->find($campaign->clientId());
 		$webHookRelay->relay($vars, $client, $httpRequest);
