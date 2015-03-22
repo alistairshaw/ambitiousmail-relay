@@ -28,8 +28,8 @@ class CampaignEventsControllerTest extends TestCase {
 		];
 
 		$this->campaignRepository = Mockery::mock('App\AmbitiousMailSender\Campaigns\CampaignRepository', 'CampaignRepository');
-		$this->campaignRepository->shouldReceive('find')->with(50)->once()->andReturn(new \App\AmbitiousMailSender\Campaigns\Campaign($campaignData));
 		$this->app->instance('App\AmbitiousMailSender\Campaigns\CampaignRepository', $this->campaignRepository);
+		$this->campaignRepository->shouldReceive('find')->with(50)->once()->andReturn(new \App\AmbitiousMailSender\Campaigns\Campaign($campaignData));
 
 		$this->campaignEventRepository = Mockery::mock('App\AmbitiousMailSender\CampaignEvents\CampaignEventRepository', 'CampaignEventRepository');
 		$this->app->instance('App\AmbitiousMailSender\CampaignEvents\CampaignEventRepository', $this->campaignEventRepository);
