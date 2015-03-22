@@ -21,4 +21,36 @@ class CampaignEvent extends AbstractEntity implements Entity {
 	 */
 	protected $recipient;
 
+	/**
+	 * @return array
+	 */
+	public function tags()
+	{
+		return $this->tags;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function event()
+	{
+		return $this->event;
+	}
+
+	/**
+	 * @param Email $recipient
+	 */
+	public function setRecipient(Email $recipient)
+	{
+		$this->recipient = $recipient;
+	}
+
+	/**
+	 * @return Email
+	 */
+	public function recipient()
+	{
+		return $this->recipient;
+	}
+
 }

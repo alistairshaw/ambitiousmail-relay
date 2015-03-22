@@ -1,7 +1,6 @@
 <?php namespace App\AmbitiousMailSender\Base\ValueObjects;
 
 use App\AmbitiousMailSender\Base\Exceptions\InvalidArgumentException;
-use PhpSpec\Exception\Exception;
 
 class DateTime extends ValueObject {
 

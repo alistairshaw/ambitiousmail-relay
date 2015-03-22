@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\AmbitiousMailSender\Campaigns\CampaignFactory;
 use Illuminate\Http\Response;
 
 class HomeController extends Controller {
@@ -30,7 +31,17 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+		return view('home', ['age'=>35]);
+	}
+
+	/**
+	 * @param CampaignFactory $campaignFactory
+	 * @return Response
+	 */
+	public function campaigns(CampaignFactory $campaignFactory)
+	{
+		$campaign = $campaignFactory->create([]);
+		return view('home', ['age'=>35]);
 	}
 
 }

@@ -10,11 +10,12 @@ class CampaignEventsController extends ApiController {
 	 * @param int                     $campaignId
 	 * @param CampaignEventRepository $campaignEventRepository
 	 * @param CampaignRepository      $campaignRepository
+	 * @return \Response
 	 */
 	public function show($campaignId, CampaignEventRepository $campaignEventRepository, CampaignRepository $campaignRepository)
 	{
 		$campaign = $campaignRepository->find($campaignId);
-		if ( ! $campaign) $this->failure('Invalid Campaign ID');
+		if ( ! $campaign) return $this->failure('Invalid Campaign ID');
 
 		// possible events to pass
 		$availableEvents = ['clicked', 'opened', 'complained', 'bounced', 'dropped'];
@@ -39,6 +40,6 @@ class CampaignEventsController extends ApiController {
 			$final[] = $entry->toArray();
 		}
 
-		$this->success($final);
+		return $this->success($final);
 	}
 }

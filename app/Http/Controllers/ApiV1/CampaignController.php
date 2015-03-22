@@ -4,12 +4,14 @@ use App\AmbitiousMailSender\Campaigns\CampaignFactory;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository;
 use Request;
+use View;
 
 class CampaignController extends ApiController {
 
 	/**
 	 * @param CampaignFactory    $campaignFactory
 	 * @param CampaignRepository $campaignRepository
+	 * @return \Response
 	 */
 	public function store(CampaignFactory $campaignFactory, CampaignRepository $campaignRepository)
 	{
@@ -31,13 +33,14 @@ class CampaignController extends ApiController {
 		$campaign = $campaignRepository->save($campaign);
 
 		if (!$campaign) $this->failure('Unable to create new campaign');
-		$this->success(['id'=>$campaign->id()]);
+		return $this->success(['id'=>$campaign->id()]);
 	}
 
 	/**
 	 * @param int                     $campaignId
 	 * @param CampaignStatsRepository $campaignStatsRepository
 	 * @param CampaignRepository      $campaignRepository
+	 * @return \Response
 	 */
 	public function show($campaignId, CampaignStatsRepository $campaignStatsRepository, CampaignRepository $campaignRepository)
 	{
@@ -47,7 +50,7 @@ class CampaignController extends ApiController {
 		$campaignStatsRepository->setDomain($campaign->getFromEmailDomain());
 		$campaignStats = $campaignStatsRepository->find($campaign->remoteCampaignId());
 
-		$this->success($campaignStats->stats());
+		return $this->success($campaignStats->stats());
 	}
 }
 

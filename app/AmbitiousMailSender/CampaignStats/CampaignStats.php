@@ -55,11 +55,7 @@ class CampaignStats extends AbstractEntity implements Entity {
 	 */
 	function __construct($data)
 	{
-		foreach ($data as $key => $value)
-		{
-			$this->setGeneric($key, $value);
-		}
-
+		parent::__construct($data);
 		$this->delivering = $this->submitted - $this->delivered - $this->dropped;
 	}
 

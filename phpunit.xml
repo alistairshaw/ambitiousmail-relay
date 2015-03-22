@@ -10,16 +10,20 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="Unit Tests">
-            <directory>./tests/unit/</directory>
+        <testsuite name="Unit/App">
+            <directory>./tests/unit/AmbitiousMailSender</directory>
         </testsuite>
-        <!--<testsuite name="Integration Tests">
-            <directory>./tests/integration/</directory>
-        </testsuite>-->
+        <testsuite name="Unit/Http">
+            <directory>./tests/unit/Http</directory>
+        </testsuite>
     </testsuites>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_DATABASE" value="sender.ambitiousmail.test"/>
+        <env name="DB_USERNAME" value="homestead"/>
+        <env name="DB_PASSWORD" value="secret"/>
     </php>
 </phpunit>

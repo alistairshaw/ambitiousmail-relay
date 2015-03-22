@@ -2,7 +2,6 @@
 
 use App\AmbitiousMailSender\Base\Entity\AbstractEntity;
 use App\AmbitiousMailSender\Base\Entity\Entity;
-use App\AmbitiousMailSender\Base\Exceptions\InvalidArgumentException;
 use App\AmbitiousMailSender\Base\ValueObjects\Email;
 
 /**
