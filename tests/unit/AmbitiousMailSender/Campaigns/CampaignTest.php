@@ -1,9 +1,36 @@
 <?php
 
 use App\AmbitiousMailSender\Base\ValueObjects\Email;
+use App\AmbitiousMailSender\Base\ValueObjects\DateTime;
 use App\AmbitiousMailSender\Campaigns\Campaign;
 
 class CampaignTest extends TestCase {
+
+	private $campaignData;
+
+	function setUp()
+	{
+		$createdTimestamp = strtotime('2015-03-01 09:25:37');
+		$updatedTimestamp = strtotime('2015-03-05 19:15:32');
+
+		$this->campaignData = [
+			'id' => 1,
+			'remoteCampaignId' => 'fJFur',
+			'campaignName' => 'Test Campaign',
+			'subjectLine' => 'This is a test campaign',
+			'fromName' => 'Alistair Shaw',
+			'trackOpens' => true,
+			'trackClicks' => false,
+			'html' => '<p>This is a test</p>',
+			'plaintext' => 'This is a test',
+			'fromEmail' => new Email('alistairshaw@gmail.com'),
+			'replyToEmail' => new Email('alistairshaw2@gmail.com'),
+			'bounceEmail' => new Email('alistairshaw3@gmail.com'),
+			'domain' => 'gmail.com',
+			'createdAt' => new DateTime($createdTimestamp),
+			'updatedAt' => new DateTime($updatedTimestamp)
+		];
+	}
 
 	/**
 	 * @test
@@ -13,6 +40,41 @@ class CampaignTest extends TestCase {
 		$campaign = new Campaign([]);
 		$this->assertEquals('', $campaign->campaignName());
 		$this->assertEquals(null, $campaign->fromEmail());
+	}
+
+	/**
+	 * @test
+	 */
+	function it_has_some_fields_that_can_be_set_and_recalled()
+	{
+		$campaign = new Campaign($this->campaignData);
+		$this->assertEquals(1, $campaign->id());
+		$this->assertEquals('fJFur', $campaign->remoteCampaignId());
+		$this->assertEquals('Test Campaign', $campaign->campaignName());
+		$this->assertEquals('This is a test campaign', $campaign->subjectLine());
+		$this->assertEquals('Alistair Shaw', $campaign->fromName());
+		$this->assertEquals(true, $campaign->trackOpens());
+		$this->assertEquals(false, $campaign->trackClicks());
+		$this->assertEquals('<p>This is a test</p>', $campaign->html());
+		$this->assertEquals('This is a test', $campaign->plaintext());
+		$this->assertEquals('alistairshaw@gmail.com', $campaign->fromEmail());
+		$this->assertEquals('alistairshaw2@gmail.com', $campaign->replyToEmail());
+		$this->assertEquals('alistairshaw3@gmail.com', $campaign->bounceEmail());
+		$this->assertEquals('gmail.com', $campaign->domain());
+		$this->assertEquals('2015-03-01 09:25:37', $campaign->createdAt());
+		$this->assertEquals('2015-03-05 19:15:32', $campaign->updatedAt());
+	}
+
+	/**
+	 * @test
+	 */
+	function tracking_variables_can_be_integers()
+	{
+		$this->campaignData['trackOpens'] = 1;
+		$this->campaignData['trackClicks'] = 0;
+		$campaign = new Campaign($this->campaignData);
+		$this->assertEquals(true, $campaign->trackOpens());
+		$this->assertEquals(false, $campaign->trackClicks());
 	}
 
 	/**

@@ -11,25 +11,31 @@ class DateTime extends ValueObject {
 	private $dateTime;
 
 	/**
+	 * @var int
+	 */
+	private $timeStamp;
+
+	/**
 	 * @var bool
 	 */
 	private $us_format = false;
 
 	/**
-	 * @param $timestamp
+	 * @param $timeStamp
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct($timestamp)
+	public function __construct($timeStamp)
 	{
-		if ($timestamp == '') throw new InvalidArgumentException('Invalid Date or Timestamp passed');
-		if (!is_numeric($timestamp))
+		if ($timeStamp == '') throw new InvalidArgumentException('Invalid Date or Timestamp passed');
+		if (!is_numeric($timeStamp))
 		{
-			$timestamp = ($this->us_format) ? str_replace("-", "/", $timestamp) : str_replace("/", "-", $timestamp);
-			$timestamp = strtotime($timestamp);
-			if (!$timestamp) throw new InvalidArgumentException('Invalid Date or Timestamp passed');
+			$timeStamp = ($this->us_format) ? str_replace("-", "/", $timeStamp) : str_replace("/", "-", $timeStamp);
+			$timeStamp = strtotime($timeStamp);
+			if (!$timeStamp) throw new InvalidArgumentException('Invalid Date or Timestamp passed');
 		}
 
-		$this->dateTime = date("Y-m-d H:i:s", $timestamp);
+		$this->timeStamp = $timeStamp;
+		$this->dateTime = date("Y-m-d H:i:s", $timeStamp);
 	}
 
 	/**
@@ -39,5 +45,16 @@ class DateTime extends ValueObject {
 	public function __toString()
 	{
 		return $this->dateTime;
+	}
+
+	/**
+	 * @param bool $returnTime
+	 * @return string
+	 */
+	public function niceDate($returnTime = false)
+	{
+		$formatString = "jS M, Y";
+		if ($returnTime) $formatString .= " g:ia";
+		return date($formatString, $this->timeStamp);
 	}
 }

@@ -32,21 +32,6 @@ class CampaignEmail extends AbstractEntity implements Entity {
 	protected $failed = false;
 
 	/**
-	 * @param $data
-	 */
-	public function __construct($data)
-	{
-		foreach ($data as $key => $value)
-		{
-			$this->setGeneric($key, $value);
-			if ($key == 'variables' && !is_array($value))
-			{
-				$this->variables = json_decode($value);
-			}
-		}
-	}
-
-	/**
 	 * @return int
 	 */
 	public function id()
@@ -63,11 +48,20 @@ class CampaignEmail extends AbstractEntity implements Entity {
 	}
 
 	/**
+	 * @param Email $emailAddress
+	 */
+	public function setEmailAddress(Email $emailAddress)
+	{
+		$this->emailAddress = $emailAddress;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function emailAddress()
 	{
-		return ($this->emailAddress) ? $this->emailAddress->__toString() : null;
+		if (!$this->emailAddress) return null;
+		return $this->emailAddress->__toString();
 	}
 
 	/**

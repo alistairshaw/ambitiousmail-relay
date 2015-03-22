@@ -33,10 +33,6 @@ class CampaignFactory extends AbstractEntityFactory implements EntityFactory {
 		if (isset($final['replyToEmail'])) $final['replyToEmail'] = new Email($final['replyToEmail']);
 		if (isset($final['bounceEmail'])) $final['bounceEmail'] = new Email($final['bounceEmail']);
 
-		// booleans
-		if (isset($final['trackOpens'])) $final['trackOpens'] = (bool)$final['trackOpens'];
-		if (isset($final['trackClicks'])) $final['trackClicks'] = (bool)$final['trackClicks'];
-
 		return new Campaign($final);
 	}
 

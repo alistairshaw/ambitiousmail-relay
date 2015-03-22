@@ -40,12 +40,26 @@ class DateTimeTest extends TestCase {
 	 */
 	function it_accepts_a_date_string()
 	{
-		$startDate ='2015-05-01 12:32:17';
+		$startDate = '2015-05-01 12:32:17';
 		$timestamp = strtotime($startDate);
 
 		$dateTime = new DateTime($startDate);
 
 		$this->assertEquals($startDate, (string)$dateTime);
+	}
+
+	/**
+	 * @test
+	 */
+	function returns_a_nice_date()
+	{
+		$dateTime = new DateTime('2015-05-01 12:32:17');
+		$this->assertEquals('1st May, 2015', $dateTime->niceDate(false));
+		$this->assertEquals('1st May, 2015 12:32pm', $dateTime->niceDate(true));
+
+		$dateTime = new DateTime('2015-05-01 05:32:17');
+		$this->assertEquals('1st May, 2015', $dateTime->niceDate(false));
+		$this->assertEquals('1st May, 2015 5:32am', $dateTime->niceDate(true));
 	}
 
 }

@@ -61,14 +61,16 @@ abstract class AbstractEntity implements Entity {
 	public function __set($name, $value)
 	{
 		$methodName = 'set' . ucwords($name);
-		if (property_exists($this, $name) && method_exists($this, $methodName))
+		if (method_exists($this, $methodName))
 		{
-			return $this->{$methodName}($value);
+			$this->{$methodName}($value);
+			return $this;
 		}
 
 		if (property_exists($this, $name))
 		{
-			return $this->{$name};
+			$this->{$name} = $value;
+			return $this;
 		}
 
 		throw new InvalidArgumentException('Undefined property ' . $name);

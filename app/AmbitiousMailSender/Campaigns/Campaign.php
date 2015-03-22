@@ -125,11 +125,27 @@ class Campaign extends AbstractEntity implements Entity {
 	}
 
 	/**
+	 * @param $trackOpens
+	 */
+	public function setTrackOpens($trackOpens)
+	{
+		$this->trackOpens = (bool)$trackOpens;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function trackOpens()
 	{
 		return $this->trackOpens;
+	}
+
+	/**
+	 * @param $trackClicks
+	 */
+	public function setTrackClicks($trackClicks)
+	{
+		$this->trackClicks = (bool)$trackClicks;
 	}
 
 	/**
