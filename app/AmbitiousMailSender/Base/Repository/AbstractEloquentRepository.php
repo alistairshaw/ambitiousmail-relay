@@ -64,7 +64,7 @@ abstract class AbstractEloquentRepository implements Repository {
 	 * @param $results
 	 * @return static
 	 */
-	private function getCollection($results)
+	protected function getCollection($results)
 	{
 		$final = [];
 		foreach ($results as $record)

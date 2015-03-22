@@ -2,8 +2,13 @@
 
 use App\AmbitiousMailSender\Base\Entity\AbstractEntity;
 use App\AmbitiousMailSender\Base\Entity\Entity;
+use App\AmbitiousMailSender\Base\Exceptions\InvalidArgumentException;
 use App\AmbitiousMailSender\Base\ValueObjects\Email;
 
+/**
+ * Class Campaign
+ * @package App\AmbitiousMailSender\Campaigns
+ */
 class Campaign extends AbstractEntity implements Entity {
 
 	/**
@@ -152,10 +157,19 @@ class Campaign extends AbstractEntity implements Entity {
 	}
 
 	/**
+	 * @param Email $email
+	 */
+	public function setFromEmail(Email $email)
+	{
+		$this->fromEmail = $email;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function fromEmail()
 	{
+		if (!$this->fromEmail) return null;
 		return $this->fromEmail->__toString();
 	}
 
@@ -168,11 +182,28 @@ class Campaign extends AbstractEntity implements Entity {
 	}
 
 	/**
+	 * @param Email $email
+	 */
+	public function setReplyToEmail(Email $email)
+	{
+		$this->replyToEmail = $email;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function replyToEmail()
 	{
+		if (!$this->replyToEmail) return null;
 		return $this->replyToEmail->__toString();
+	}
+
+	/**
+	 * @param Email $email
+	 */
+	public function setBounceEmail(Email $email)
+	{
+		$this->bounceEmail = $email;
 	}
 
 	/**
@@ -180,6 +211,7 @@ class Campaign extends AbstractEntity implements Entity {
 	 */
 	public function bounceEmail()
 	{
+		if (!$this->bounceEmail) return null;
 		return $this->bounceEmail->__toString();
 	}
 

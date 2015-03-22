@@ -1,5 +1,6 @@
 <?php namespace App\AmbitiousMailSender\Base\ValueObjects;
 
+use App\AmbitiousMailSender\Base\Exceptions\InvalidArgumentException;
 use Exception;
 
 class Email extends ValueObject {
@@ -15,15 +16,9 @@ class Email extends ValueObject {
 	 */
 	public function __construct($email)
 	{
-		if ($email !== '')
-		{
-			$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-			if (filter_var($email, FILTER_VALIDATE_EMAIL) === false)
-			{
-				throw new Exception('Invalid Email Address Passed');
-			}
-		}
-
+		if ($email == '') throw new InvalidArgumentException('No Email Address Set');
+		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+		if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) throw new InvalidArgumentException('Invalid Email Address');
 		$this->email = $email;
 	}
 

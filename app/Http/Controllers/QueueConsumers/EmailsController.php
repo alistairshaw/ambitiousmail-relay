@@ -38,6 +38,8 @@ class EmailsController extends QueueConsumerController {
 
 		Log::info('Email Sending Queue Consumer - Campaign: ' . $campaignId);
 
+		$done = 0;
+		$failed = 0;
 		if ($campaign = $campaignRepository->find($campaignId))
 		{
 			$searchParams = [
@@ -50,14 +52,17 @@ class EmailsController extends QueueConsumerController {
 				$success = $mailTransport->send($campaign, $email, $campaignRepository);
 				if ($success)
 				{
+					$done++;
 					$campaignEmailRepository->destroy($email->id());
 				}
 				else
 				{
+					$failed++;
 					$campaignEmailRepository->save($email->fail());
 				}
 			}
 		}
+		Log::info('Sent/Failed : ' . $done . '/' . $failed);
 
 		// create a new consumer to replace the one we just used
 		$requestData = [

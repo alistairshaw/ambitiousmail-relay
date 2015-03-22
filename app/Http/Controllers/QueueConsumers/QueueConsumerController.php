@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 class QueueConsumerController extends Controller {
 
-	public function __construct(Queue $queue)
+	public function __construct()
 	{
 
 	}
