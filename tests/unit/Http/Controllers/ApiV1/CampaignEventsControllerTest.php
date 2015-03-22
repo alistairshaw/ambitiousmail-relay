@@ -18,6 +18,10 @@ class CampaignEventsControllerTest extends TestCase {
 	 */
 	protected $campaignEventRepository;
 
+	public function tearDown() {
+		Mockery::close();
+	}
+
 	function testShow()
 	{
 		$campaignData = [

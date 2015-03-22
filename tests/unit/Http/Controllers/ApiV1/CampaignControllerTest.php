@@ -21,6 +21,10 @@ class CampaignControllerTest extends TestCase {
 		parent::setUp();
 	}
 
+	public function tearDown() {
+		Mockery::close();
+	}
+
 	/**
 	 * @test
 	 */

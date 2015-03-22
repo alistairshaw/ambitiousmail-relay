@@ -18,6 +18,10 @@ class EmailsControllerTest extends TestCase {
 	 */
 	private $queue;
 
+	public function tearDown() {
+		Mockery::close();
+	}
+
 	/**
 	 * @test
 	 */
@@ -93,7 +97,6 @@ class EmailsControllerTest extends TestCase {
 		$this->campaignEmailRepository = Mockery::mock('App\AmbitiousMailSender\CampaignEmails\CampaignEmailRepository', 'campaignEmailRepository');
 		$this->app->instance('App\AmbitiousMailSender\CampaignEmails\CampaignEmailRepository', $this->campaignEmailRepository);
 		$this->campaignEmailRepository->shouldReceive('save')->times(2);
-		$this->campaignEmailRepository->shouldReceive('save')->once()->andThrow('App\AmbitiousMailSender\Base\Exceptions\InvalidArgumentException');
 
 		// Mock Queue
 		$this->queue = Mockery::mock('App\AmbitiousMailSender\Base\Services\Queue\Queue', 'queue');
