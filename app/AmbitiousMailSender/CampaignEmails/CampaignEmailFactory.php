@@ -2,6 +2,7 @@
 
 use App\AmbitiousMailSender\Base\Entity\AbstractEntityFactory;
 use App\AmbitiousMailSender\Base\Entity\EntityFactory;
+use App\AmbitiousMailSender\Base\ValueObjects\DateTime;
 use App\AmbitiousMailSender\Base\ValueObjects\Email;
 
 class CampaignEmailFactory extends AbstractEntityFactory implements EntityFactory {
@@ -22,12 +23,27 @@ class CampaignEmailFactory extends AbstractEntityFactory implements EntityFactor
 	 */
 	public function createEntity($data = array())
 	{
-		if (isset($data['email_address']))
+		$final = [];
+		foreach ($data as $key => $value)
 		{
-			$data['emailAddress'] = New Email($data['email_address']);
-			unset($data['email_address']);
+			$newKey = camel_case($key);
+
+			// sort out dates
+			if ($newKey == 'createdAt') $value = new DateTime($value);
+			if ($newKey == 'updatedAt') $value = new DateTime($value);
+
+			// sort out emails
+			if ($newKey == 'emailAddress') $value = new Email($value);
+
+			if ($newKey == 'variables')
+			{
+				if (!is_array($value)) $value = json_decode($value, true);
+			}
+
+			$final[ $newKey ] = $value;
 		}
-		return new CampaignEmail($data);
+
+		return new CampaignEmail($final);
 	}
 
 }

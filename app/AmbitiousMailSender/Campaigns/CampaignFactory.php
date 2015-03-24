@@ -2,6 +2,7 @@
 
 use App\AmbitiousMailSender\Base\Entity\AbstractEntityFactory;
 use App\AmbitiousMailSender\Base\Entity\EntityFactory;
+use App\AmbitiousMailSender\Base\ValueObjects\DateTime;
 use App\AmbitiousMailSender\Base\ValueObjects\Email;
 
 class CampaignFactory extends AbstractEntityFactory implements EntityFactory {
@@ -27,6 +28,10 @@ class CampaignFactory extends AbstractEntityFactory implements EntityFactory {
 		foreach ($data as $key => $value)
 		{
 			$newKey = camel_case($key);
+
+			// sort out dates
+			if ($newKey == 'createdAt') $value = new DateTime($value);
+			if ($newKey == 'updatedAt') $value = new DateTime($value);
 
 			// sort out emails
 			if ($newKey == 'fromEmail') $value = new Email($value);
