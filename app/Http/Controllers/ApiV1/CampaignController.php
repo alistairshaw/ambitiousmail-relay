@@ -4,7 +4,6 @@ use App\AmbitiousMailSender\Campaigns\CampaignFactory;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository;
 use Request;
-use View;
 
 class CampaignController extends ApiController {
 
