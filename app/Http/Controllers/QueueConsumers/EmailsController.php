@@ -27,8 +27,8 @@ class EmailsController extends QueueConsumerController {
 		if (!$message)
 		{
 			// this is for debugging
-			$campaignId = 17;
-			$emailsToSend = 2;
+			$campaignId = 72;
+			$emailsToSend = 1;
 		}
 		else
 		{

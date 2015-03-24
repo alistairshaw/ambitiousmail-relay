@@ -26,34 +26,34 @@ class CampaignFactory extends AbstractEntityFactory implements EntityFactory {
 		$final = [];
 		foreach ($data as $key => $value)
 		{
-			$final[ camel_case($key) ] = $value;
-		}
+			$newKey = camel_case($key);
 
-		// emails
-		if (isset($final['fromEmail'])) $final['fromEmail'] = new Email($final['fromEmail']);
+			// sort out emails
+			if ($newKey == 'fromEmail') $value = new Email($value);
+			if ($newKey == 'replyToEmail')
+			{
+				if ($value)
+				{
+					$value = new Email($value);
+				}
+				else
+				{
+					continue;
+				}
+			}
+			if ($newKey == 'bounceEmail')
+			{
+				if ($value)
+				{
+					$value = new Email($value);
+				}
+				else
+				{
+					continue;
+				}
+			}
 
-		if (isset($final['replyToEmail']))
-		{
-			if ($final['replyToEmail'] == '')
-			{
-				unset($final['replyToEmail']);
-			}
-			else
-			{
-				$final['replyToEmail'] = new Email($final['replyToEmail']);
-			}
-		}
-
-		if (isset($final['bounceEmail']))
-		{
-			if ($final['bounceEmail'] == '')
-			{
-				unset($final['bounceEmail']);
-			}
-			else
-			{
-				$final['bounceEmail'] = new Email($final['bounceEmail']);
-			}
+			$final[ $newKey ] = $value;
 		}
 
 		return new Campaign($final);
