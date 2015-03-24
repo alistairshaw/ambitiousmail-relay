@@ -4,9 +4,16 @@ use App\AmbitiousMailSender\Base\ValueObjects\Email;
 use App\AmbitiousMailSender\CampaignEvents\CampaignEvent;
 use App\AmbitiousMailSender\CampaignEvents\CampaignEventRepository;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
+use App\AmbitiousMailSender\Clients\Client;
+use App\AmbitiousMailSender\Clients\ClientRepository;
 use Illuminate\Support\Collection;
 
 class CampaignEventsControllerTest extends TestCase {
+
+	/**
+	 * @var ClientRepository
+	 */
+	protected $clientRepository;
 
 	/**
 	 * @var CampaignRepository
@@ -18,7 +25,18 @@ class CampaignEventsControllerTest extends TestCase {
 	 */
 	protected $campaignEventRepository;
 
+	public function setUp()
+	{
+		parent::setUp();
+
+		// we need to mock the clientRepository for authentication
+		$this->clientRepository = Mockery::mock('App\AmbitiousMailSender\Clients\ClientRepository', 'ClientRepository');
+		$this->app->instance('App\AmbitiousMailSender\Clients\ClientRepository', $this->clientRepository);
+		$this->clientRepository->shouldReceive('findByName')->with('user')->andReturn(new Client(['id'=>1, 'apiKey'=>'secret']));
+	}
+
 	public function tearDown() {
+		parent::tearDown();
 		Mockery::close();
 	}
 
@@ -63,7 +81,7 @@ class CampaignEventsControllerTest extends TestCase {
 			'limit'      => 100,
 			'event'      => 'clicked'
 		];
-		$this->action('GET', 'ApiV1\CampaignEventsController@show', $urlData);
+		$this->action('GET', 'ApiV1\CampaignEventsController@show', $urlData, [], [], [], ['PHP_AUTH_USER'=>'user', 'PHP_AUTH_PW'=>'secret']);
 
 		$this->assertResponseOk();
 

@@ -2,8 +2,15 @@
 
 use App\AmbitiousMailSender\CampaignEmails\CampaignEmailRepository;
 use App\AmbitiousMailSender\Base\Services\Queue\Queue;
+use App\AmbitiousMailSender\Clients\Client;
+use App\AmbitiousMailSender\Clients\ClientRepository;
 
 class EmailsControllerTest extends TestCase {
+
+	/**
+	 * @var ClientRepository
+	 */
+	private $clientRepository;
 
 	/**
 	 * @var CampaignEmailRepository
@@ -15,7 +22,18 @@ class EmailsControllerTest extends TestCase {
 	 */
 	private $queue;
 
+	public function setUp()
+	{
+		parent::setUp();
+
+		// we need to mock the clientRepository for authentication
+		$this->clientRepository = Mockery::mock('App\AmbitiousMailSender\Clients\ClientRepository', 'ClientRepository');
+		$this->app->instance('App\AmbitiousMailSender\Clients\ClientRepository', $this->clientRepository);
+		$this->clientRepository->shouldReceive('findByName')->with('user')->andReturn(new Client(['id'=>1, 'apiKey'=>'secret']));
+	}
+
 	public function tearDown() {
+		parent::tearDown();
 		Mockery::close();
 	}
 
@@ -48,7 +66,7 @@ class EmailsControllerTest extends TestCase {
 			'emails'     => json_encode($emails)
 		];
 
-		$this->action('POST', 'ApiV1\EmailsController@store', $postData);
+		$this->action('POST', 'ApiV1\EmailsController@store', $postData, [], [], [], ['PHP_AUTH_USER'=>'user', 'PHP_AUTH_PW'=>'secret']);
 
 		$this->assertResponseOk();
 		$this->assertViewHas('apiResponse', ['success' => 1, 'response' => ['received'=>3], 'message' => '']);
@@ -79,7 +97,7 @@ class EmailsControllerTest extends TestCase {
 			'emails'     => json_encode($emails)
 		];
 
-		$this->action('POST', 'ApiV1\EmailsController@store', $postData);
+		$this->action('POST', 'ApiV1\EmailsController@store', $postData, [], [], [], ['PHP_AUTH_USER'=>'user', 'PHP_AUTH_PW'=>'secret']);
 
 		$this->assertResponseOk();
 		$this->assertViewHas('apiResponse', ['success' => 1, 'response' => ['received'=>0], 'message' => '']);
@@ -114,7 +132,7 @@ class EmailsControllerTest extends TestCase {
 			'emails'     => json_encode($emails)
 		];
 
-		$this->action('POST', 'ApiV1\EmailsController@store', $postData);
+		$this->action('POST', 'ApiV1\EmailsController@store', $postData, [], [], [], ['PHP_AUTH_USER'=>'user', 'PHP_AUTH_PW'=>'secret']);
 
 		$this->assertResponseOk();
 		$this->assertViewHas('apiResponse', ['success' => 1, 'response' => ['received'=>2], 'message' => '']);

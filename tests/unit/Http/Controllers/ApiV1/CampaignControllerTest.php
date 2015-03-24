@@ -3,8 +3,15 @@
 use App\AmbitiousMailSender\Base\ValueObjects\Email;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository;
+use App\AmbitiousMailSender\Clients\Client;
+use App\AmbitiousMailSender\Clients\ClientRepository;
 
 class CampaignControllerTest extends TestCase {
+
+	/**
+	 * @var ClientRepository
+	 */
+	protected $clientRepository;
 
 	/**
 	 * @var CampaignRepository
@@ -19,9 +26,15 @@ class CampaignControllerTest extends TestCase {
 	function setUp()
 	{
 		parent::setUp();
+
+		// we need to mock the clientRepository for authentication
+		$this->clientRepository = Mockery::mock('App\AmbitiousMailSender\Clients\ClientRepository', 'ClientRepository');
+		$this->app->instance('App\AmbitiousMailSender\Clients\ClientRepository', $this->clientRepository);
+		$this->clientRepository->shouldReceive('findByName')->with('user')->andReturn(new Client(['id'=>1, 'apiKey'=>'secret']));
 	}
 
 	public function tearDown() {
+		parent::tearDown();
 		Mockery::close();
 	}
 
@@ -30,7 +43,9 @@ class CampaignControllerTest extends TestCase {
 	 */
 	function testStore()
 	{
-		$this->app->client_id = 1;
+		$this->campaignRepository = Mockery::mock('App\AmbitiousMailSender\Campaigns\CampaignRepository', 'CampaignRepository');
+		$this->campaignRepository->shouldReceive('save')->once()->andReturn(new \App\AmbitiousMailSender\Campaigns\Campaign(['id'=>50]));
+		$this->app->instance('App\AmbitiousMailSender\Campaigns\CampaignRepository', $this->campaignRepository);
 
 		$campaignData = [
 			'campaign_name' => 'Test Campaign',
@@ -46,11 +61,7 @@ class CampaignControllerTest extends TestCase {
 			'domain' => 'gmail.com'
 		];
 
-		$this->campaignRepository = Mockery::mock('App\AmbitiousMailSender\Campaigns\CampaignRepository', 'CampaignRepository');
-		$this->campaignRepository->shouldReceive('save')->once()->andReturn(new \App\AmbitiousMailSender\Campaigns\Campaign(['id'=>50]));
-		$this->app->instance('App\AmbitiousMailSender\Campaigns\CampaignRepository', $this->campaignRepository);
-
-		$this->action('POST', 'ApiV1\CampaignController@store', $campaignData);
+		$this->action('POST', 'ApiV1\CampaignController@store', $campaignData, [], [], [], ['PHP_AUTH_USER'=>'user', 'PHP_AUTH_PW'=>'secret']);
 		$this->assertResponseOk();
 		$this->assertViewHas('apiResponse', ['success'=>1, 'response'=>['id'=>50], 'message'=>'']);
 	}
@@ -60,8 +71,6 @@ class CampaignControllerTest extends TestCase {
 	 */
 	function testStoreShouldBeOkWithEmptyEmails()
 	{
-		$this->app->client_id = 1;
-
 		$campaignData = [
 			'campaign_name' => 'Test Campaign',
 			'subject_line' => 'This is a test',
@@ -80,7 +89,7 @@ class CampaignControllerTest extends TestCase {
 		$this->campaignRepository->shouldReceive('save')->once()->andReturn(new \App\AmbitiousMailSender\Campaigns\Campaign(['id'=>50]));
 		$this->app->instance('App\AmbitiousMailSender\Campaigns\CampaignRepository', $this->campaignRepository);
 
-		$this->action('POST', 'ApiV1\CampaignController@store', $campaignData);
+		$response = $this->action('POST', 'ApiV1\CampaignController@store', $campaignData, [], [], [], ['PHP_AUTH_USER'=>'user', 'PHP_AUTH_PW'=>'secret']);
 		$this->assertResponseOk();
 		$this->assertViewHas('apiResponse', ['success'=>1, 'response'=>['id'=>50], 'message'=>'']);
 	}
@@ -117,7 +126,7 @@ class CampaignControllerTest extends TestCase {
 		$this->campaignStatsRepository->shouldReceive('find')->with('hyght')->once()->andReturn(new \App\AmbitiousMailSender\CampaignStats\CampaignStats($campaignStatsData));
 		$this->app->instance('App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository', $this->campaignStatsRepository);
 
-		$this->action('GET', 'ApiV1\CampaignController@show', ['campaignId'=>50]);
+		$this->action('GET', 'ApiV1\CampaignController@show', ['campaignId'=>50], [], [], [], ['PHP_AUTH_USER'=>'user', 'PHP_AUTH_PW'=>'secret']);
 
 		unset($campaignStatsData['id']);
 		$campaignStatsData['delivering'] = 30;
