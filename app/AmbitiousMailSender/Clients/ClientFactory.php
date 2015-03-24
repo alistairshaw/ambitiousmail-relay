@@ -2,6 +2,7 @@
 
 use App\AmbitiousMailSender\Base\Entity\AbstractEntityFactory;
 use App\AmbitiousMailSender\Base\Entity\EntityFactory;
+use App\AmbitiousMailSender\Base\ValueObjects\DateTime;
 use App\AmbitiousMailSender\Base\ValueObjects\Email;
 
 class ClientFactory extends AbstractEntityFactory implements EntityFactory {
@@ -28,6 +29,9 @@ class ClientFactory extends AbstractEntityFactory implements EntityFactory {
 		{
 			$final[ camel_case($key) ] = $value;
 		}
+
+		if (isset($final['createdAt'])) $final['createdAt'] = new DateTime(strtotime($final['createdAt']));
+		if (isset($final['updatedAt'])) $final['updatedAt'] = new DateTime(strtotime($final['updatedAt']));
 
 		return new Client($final);
 	}

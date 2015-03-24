@@ -26,4 +26,15 @@ class ClientFactoryTest extends TestCase {
 		$this->assertInstanceOf('\App\AmbitiousMailSender\Clients\Client', $client);
 	}
 
+	/**
+	 * @test
+	 */
+	function created_at_must_be_converted_to_an_instance_of_date_time_value_object()
+	{
+		$clientFactory = new \App\AmbitiousMailSender\Clients\ClientFactory();
+		$client = $clientFactory->create([
+			'createdAt'=>'2014-05-06 12:42:12'
+		]);
+	}
+
 }
