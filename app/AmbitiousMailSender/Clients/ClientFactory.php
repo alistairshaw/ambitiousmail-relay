@@ -22,7 +22,14 @@ class ClientFactory extends AbstractEntityFactory implements EntityFactory {
 	 */
 	public function createEntity($data = array())
 	{
-		return new Client($data);
+		// convert snake case to camel case
+		$final = [];
+		foreach ($data as $key => $value)
+		{
+			$final[ camel_case($key) ] = $value;
+		}
+
+		return new Client($final);
 	}
 
 }
