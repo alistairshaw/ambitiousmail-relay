@@ -1,10 +1,7 @@
 <?php
 
-use App\AmbitiousMailSender\Base\ValueObjects\Email;
-use App\AmbitiousMailSender\CampaignEmails\CampaignEmailFactory;
 use App\AmbitiousMailSender\CampaignEmails\CampaignEmailRepository;
 use App\AmbitiousMailSender\Base\Services\Queue\Queue;
-use App\AmbitiousMailSender\Base\Services\HttpRequest\HttpRequest;
 
 class EmailsControllerTest extends TestCase {
 

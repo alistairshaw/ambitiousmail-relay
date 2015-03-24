@@ -58,6 +58,36 @@ class CampaignControllerTest extends TestCase {
 	/**
 	 * @test
 	 */
+	function testStoreShouldBeOkWithEmptyEmails()
+	{
+		$this->app->client_id = 1;
+
+		$campaignData = [
+			'campaign_name' => 'Test Campaign',
+			'subject_line' => 'This is a test',
+			'from_name' => 'Alistair Shaw',
+			'track_opens' => 1,
+			'track_clicks' => 1,
+			'html' => '<p>This is a test email</p>',
+			'plaintext' => 'This is a test email',
+			'from_email' => 'alistairshaw@gmail.com',
+			'reply_to_email' => '',
+			'bounce_email' => '',
+			'domain' => 'gmail.com'
+		];
+
+		$this->campaignRepository = Mockery::mock('App\AmbitiousMailSender\Campaigns\CampaignRepository', 'CampaignRepository');
+		$this->campaignRepository->shouldReceive('save')->once()->andReturn(new \App\AmbitiousMailSender\Campaigns\Campaign(['id'=>50]));
+		$this->app->instance('App\AmbitiousMailSender\Campaigns\CampaignRepository', $this->campaignRepository);
+
+		$this->action('POST', 'ApiV1\CampaignController@store', $campaignData);
+		$this->assertResponseOk();
+		$this->assertViewHas('apiResponse', ['success'=>1, 'response'=>['id'=>50], 'message'=>'']);
+	}
+
+	/**
+	 * @test
+	 */
 	function testShow()
 	{
 		$campaignData = [
