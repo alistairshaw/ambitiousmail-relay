@@ -23,15 +23,17 @@ class ClientFactory extends AbstractEntityFactory implements EntityFactory {
 	 */
 	public function createEntity($data = array())
 	{
-		// convert snake case to camel case
 		$final = [];
 		foreach ($data as $key => $value)
 		{
-			$final[ camel_case($key) ] = $value;
-		}
+			$newKey = camel_case($key);
 
-		if (isset($final['createdAt'])) $final['createdAt'] = new DateTime(strtotime($final['createdAt']));
-		if (isset($final['updatedAt'])) $final['updatedAt'] = new DateTime(strtotime($final['updatedAt']));
+			// sort out dates
+			if ($newKey == 'createdAt') $value = new DateTime($value);
+			if ($newKey == 'updatedAt') $value = new DateTime($value);
+
+			$final[ $newKey ] = $value;
+		}
 
 		return new Client($final);
 	}
