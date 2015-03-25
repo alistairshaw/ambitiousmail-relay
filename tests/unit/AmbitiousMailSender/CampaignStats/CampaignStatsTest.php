@@ -26,6 +26,7 @@ class CampaignStatsTest extends TestCase {
 			'clicked' => 22,
 			'opened' => 72,
 			'complained' => 0,
+			'unsubscribed' => 0,
 			'createdAt' => new DateTime($createdTimestamp),
 			'updatedAt' => new DateTime($updatedTimestamp)
 		];
@@ -54,7 +55,8 @@ class CampaignStatsTest extends TestCase {
 			'bounced' => 15,
 			'clicked' => 22,
 			'opened' => 72,
-			'complained' => 0
+			'complained' => 0,
+			'unsubscribed' => 0
 		];
 
 		$this->assertEquals($statsArray, $campaign->stats());
