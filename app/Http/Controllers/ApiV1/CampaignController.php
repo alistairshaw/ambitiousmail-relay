@@ -46,10 +46,24 @@ class CampaignController extends ApiController {
 		$campaign = $campaignRepository->find($campaignId);
 		if (!$campaign) $this->failure('Invalid Campaign ID');
 
-		$campaignStatsRepository->setDomain($campaign->getFromEmailDomain());
-		$campaignStats = $campaignStatsRepository->find($campaign->remoteCampaignId());
-
-		return $this->success($campaignStats->stats());
+		if ($campaign->remoteCampaignId())
+		{
+			$campaignStatsRepository->setDomain($campaign->getFromEmailDomain());
+			$campaignStats = $campaignStatsRepository->find($campaign->remoteCampaignId());
+			return $this->success($campaignStats->stats());
+		}
+		else
+		{
+			return $this->success([
+				'delivered' => 0,
+				'dropped' => 0,
+				'opened' => 0,
+				'clicked' => 0,
+				'complained' => 0,
+				'bounced' => 0,
+				'unsubscribed' => 0
+			]);
+		}
 	}
 }
 
