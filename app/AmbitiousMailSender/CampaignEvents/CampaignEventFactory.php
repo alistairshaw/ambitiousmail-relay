@@ -23,13 +23,16 @@ class CampaignEventFactory extends AbstractEntityFactory implements EntityFactor
 	 */
 	public function createEntity($data = array())
 	{
-		if (isset($data['recipient'])) $data['recipient'] = new Email($data['recipient']);
+		$final = [];
+		if (isset($data['recipient'])) $final['recipient'] = new Email($data['recipient']);
 		if (isset($data['timestamp']))
 		{
-			$data['created_at'] = new DateTime(strtotime($data['timestamp']));
-			$data['updated_at'] = new DateTime(strtotime($data['timestamp']));
+			$final['created_at'] = new DateTime(strtotime($data['timestamp']));
+			$final['updated_at'] = new DateTime(strtotime($data['timestamp']));
 		}
-		return new CampaignEvent($data);
+		if (isset($data['event'])) $final['event'] = $data['event'];
+		if (isset($data['tags'])) $final['tags'] = $data['tags'];
+		return new CampaignEvent($final);
 	}
 
 }
