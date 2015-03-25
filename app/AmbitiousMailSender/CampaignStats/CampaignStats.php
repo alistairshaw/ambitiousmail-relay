@@ -51,6 +51,11 @@ class CampaignStats extends AbstractEntity implements Entity {
 	protected $complained;
 
 	/**
+	 * @var int
+	 */
+	protected $unsubscribed;
+
+	/**
 	 * @param $data
 	 */
 	function __construct($data)
@@ -73,6 +78,7 @@ class CampaignStats extends AbstractEntity implements Entity {
 		$data['clicked'] = $this->clicked;
 		$data['opened'] = $this->opened;
 		$data['complained'] = $this->complained;
+		$data['unsubscribed'] = $this->unsubscribed;
 
 		return $data;
 	}

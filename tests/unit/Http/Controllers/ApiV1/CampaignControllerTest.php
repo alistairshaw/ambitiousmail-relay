@@ -118,7 +118,8 @@ class CampaignControllerTest extends TestCase {
 			'bounced' => 5,
 			'clicked' => 60,
 			'opened' => 55,
-			'complained' => 0
+			'complained' => 0,
+			'unsubscribed' => 0
 		];
 
 		$this->campaignStatsRepository = Mockery::mock('App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository', 'CampaignStatsRepository');

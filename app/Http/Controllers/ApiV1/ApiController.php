@@ -17,7 +17,8 @@ class ApiController extends Controller {
 		$username = Request::header('php-auth-user');
 		$password = Request::header('php-auth-pw');
 
-		if (!$client = $clientRepository->findByName($username)) $this->failure('Permission Denied');
+		$client = $clientRepository->findByName($username);
+		if (!$client) $this->failure('Permission Denied');
 		if ($client->apiKey() !== $password) $this->failure('Permission Denied');
 
 		$this->client_id = $client->id();
