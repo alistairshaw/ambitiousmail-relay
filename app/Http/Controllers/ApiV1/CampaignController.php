@@ -26,7 +26,7 @@ class CampaignController extends ApiController {
 			'fromEmail'=>Request::input('from_email'),
 			'replyToEmail'=>Request::input('reply_to_email'),
 			'bounceEmail'=>Request::input('bounce_email'),
-			'domain'=>Request::input('domain')
+			'domain'=>Request::input('domain'),
 		]);
 
 		$campaign = $campaignRepository->save($campaign);
