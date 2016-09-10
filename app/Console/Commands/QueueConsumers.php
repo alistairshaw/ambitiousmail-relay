@@ -27,6 +27,8 @@ class QueueConsumers extends Command {
 
 		$queue_consumer_url = Route('queueConsumerSetup');
 
+        echo $queue_consumer_url;
+
 		foreach ($queues as $queue_name => $url)
 		{
 			$requestData = [

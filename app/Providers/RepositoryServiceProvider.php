@@ -4,6 +4,21 @@ use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider {
 
+    /**
+     * @var string
+     */
+    private $mailService;
+
+    /**
+     * AmbitiousMailSenderServiceProvider constructor.
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     */
+    public function __construct($app)
+    {
+        $this->mailService = env('MAIL_SERVICE', 'MOCK');
+        parent::__construct($app);
+    }
+
 	/**
 	 * Register the repositories
 	 *
@@ -36,17 +51,43 @@ class RepositoryServiceProvider extends ServiceProvider {
 
 	private function registerCampaignStatsRepository()
 	{
+        switch ($this->mailService)
+        {
+            case 'MAILGUN':
+                $bind = 'MailgunCampaignStatsRepository';
+                break;
+            case 'SMTP':
+                $bind = 'SmtpCampaignStatsRepository';
+                break;
+            default:
+                $bind = 'MockCampaignStatsRepository';
+                break;
+        }
+
 		$this->app->bind(
 			'App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository',
-			'App\AmbitiousMailSender\CampaignStats\Repository\MailgunCampaignStatsRepository'
+			'App\AmbitiousMailSender\CampaignStats\Repository\\' . $bind
 		);
 	}
 
 	private function registerCampaignEventRepository()
 	{
+        switch ($this->mailService)
+        {
+            case 'MAILGUN':
+                $bind = 'MailgunCampaignEventRepository';
+                break;
+            case 'SMTP':
+                $bind = 'SmtpCampaignEventRepository';
+                break;
+            default:
+                $bind = 'MockCampaignEventRepository';
+                break;
+        }
+
 		$this->app->bind(
 			'App\AmbitiousMailSender\CampaignEvents\CampaignEventRepository',
-			'App\AmbitiousMailSender\CampaignEvents\Repository\MailgunCampaignEventRepository'
+			'App\AmbitiousMailSender\CampaignEvents\Repository\\' . $bind
 		);
 	}
 
