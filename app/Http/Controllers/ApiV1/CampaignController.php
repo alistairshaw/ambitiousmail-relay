@@ -31,7 +31,7 @@ class CampaignController extends ApiController {
 
 		$campaign = $campaignRepository->save($campaign);
 
-		if (!$campaign) $this->failure('Unable to create new campaign');
+		if (!$campaign) return $this->failure('Unable to create new campaign');
 		return $this->success(['id'=>$campaign->id()]);
 	}
 
