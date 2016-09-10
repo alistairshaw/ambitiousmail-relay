@@ -1,6 +1,7 @@
 {
-  "name": "laravel/laravel",
-  "description": "The Laravel Framework.",
+  "name": "alistairshaw/ambitiousmail-relay",
+  "description": "Email marketing relay for consistent API regardless of provider",
+  "version": "1.0",
   "keywords": [
     "framework",
     "laravel"
