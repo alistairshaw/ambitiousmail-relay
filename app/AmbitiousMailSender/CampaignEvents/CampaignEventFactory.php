@@ -7,15 +7,15 @@ use App\AmbitiousMailSender\Base\ValueObjects\Email;
 
 class CampaignEventFactory extends AbstractEntityFactory implements EntityFactory {
 
-	/**
-	 * @param array       $data
-	 * @return CampaignEvent
-	 */
-	public function create($data = array())
-	{
-		$entity = parent::create($data);
-		return $entity;
-	}
+    /**
+     * Set the ID and timestamps
+     * @param array $data
+     * @return CampaignEvent
+     */
+    public function create($data = array())
+    {
+        return $this->createEntity($data);
+    }
 
 	/**
 	 * @param array $data
@@ -32,6 +32,7 @@ class CampaignEventFactory extends AbstractEntityFactory implements EntityFactor
 		}
 		if (isset($data['event'])) $final['event'] = $data['event'];
 		if (isset($data['tags'])) $final['tags'] = $data['tags'];
+		if (isset($data['link'])) $final['link'] = $data['link'];
 		return new CampaignEvent($final);
 	}
 
