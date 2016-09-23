@@ -32,6 +32,7 @@ class CampaignEventFactory extends AbstractEntityFactory implements EntityFactor
 		}
 		if (isset($data['event'])) $final['event'] = $data['event'];
 		if (isset($data['tags'])) $final['tags'] = $data['tags'];
+		if (isset($data['link'])) $final['link'] = $data['link'];
 		return new CampaignEvent($final);
 	}
 
