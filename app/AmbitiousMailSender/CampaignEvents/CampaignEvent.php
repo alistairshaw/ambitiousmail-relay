@@ -21,6 +21,11 @@ class CampaignEvent extends AbstractEntity implements Entity {
 	 */
 	protected $recipient;
 
+    /**
+     * @var string
+     */
+    protected $link;
+
 	/**
 	 * @return array
 	 */

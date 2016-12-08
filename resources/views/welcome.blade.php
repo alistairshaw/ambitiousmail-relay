@@ -38,8 +38,8 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">Ambitious Mail Server</div>
-				<div class="quote">Are you looking for <a href="https://ambitiousmail.co.uk">ambitiousmail.co.uk</a>?</div>
+				<div class="title">Ambitious Mail</div>
+				<div class="quote">Are you looking for <a href="https://vendirun.co.uk">vendirun.co.uk</a>?</div>
 			</div>
 		</div>
 	</body>

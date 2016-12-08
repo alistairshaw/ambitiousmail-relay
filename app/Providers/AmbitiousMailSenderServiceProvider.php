@@ -1,10 +1,26 @@
 <?php namespace App\Providers;
 
+use App;
 use Illuminate\Support\ServiceProvider;
 
 class AmbitiousMailSenderServiceProvider extends ServiceProvider {
 
-	/**
+    /**
+     * @var string
+     */
+    private $mailService;
+
+    /**
+     * AmbitiousMailSenderServiceProvider constructor.
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     */
+    public function __construct($app)
+    {
+        $this->mailService = env('MAIL_SERVICE', 'MOCK');
+        parent::__construct($app);
+    }
+
+    /**
 	 * Register the repositories
 	 *
 	 * @return void
@@ -34,10 +50,27 @@ class AmbitiousMailSenderServiceProvider extends ServiceProvider {
 	 */
 	public function registerMailTransportServiceProvider()
 	{
-		$this->app->bind(
-			'App\AmbitiousMailSender\Base\Services\MailTransport\MailTransport',
-			'App\AmbitiousMailSender\Base\Services\MailTransport\MailgunMailTransport'
-		);
+	    switch ($this->mailService)
+        {
+            case 'MAILGUN':
+                $this->app->bind(
+                    'App\AmbitiousMailSender\Base\Services\MailTransport\MailTransport',
+                    'App\AmbitiousMailSender\Base\Services\MailTransport\MailgunMailTransport'
+                );
+                break;
+            case 'SMTP':
+                $this->app->bind(
+                    'App\AmbitiousMailSender\Base\Services\MailTransport\MailTransport',
+                    'App\AmbitiousMailSender\Base\Services\MailTransport\SMTPMailTransport'
+                );
+                break;
+            default:
+                $this->app->bind(
+                    'App\AmbitiousMailSender\Base\Services\MailTransport\MailTransport',
+                    'App\AmbitiousMailSender\Base\Services\MailTransport\MockMailTransport'
+                );
+                break;
+        }
 	}
 
 	/**
