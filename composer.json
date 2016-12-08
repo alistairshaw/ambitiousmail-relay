@@ -9,9 +9,9 @@
   "type": "project",
   "require": {
     "laravel/framework": "5.0.*",
-    "videlalvaro/php-amqplib": "~2.5",
     "guzzlehttp/guzzle": "~5.2",
-    "mailgun/mailgun-php": "~1.7"
+    "mailgun/mailgun-php": "~1.7",
+    "php-amqplib/php-amqplib": "^2.6"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",
