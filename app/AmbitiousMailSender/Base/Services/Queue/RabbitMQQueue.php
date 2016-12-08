@@ -2,163 +2,176 @@
 
 use App\AmbitiousMailSender\Base\Services\HttpRequest\HttpRequest;
 use Log;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQQueue implements Queue {
 
-	/**
-	 * Queue Name
-	 * @var string
-	 */
-	private $queue;
+    /**
+     * Queue Name
+     * @var string
+     */
+    private $queue;
 
-	/**
-	 * Current consumer count for the queue
-	 * @var int
-	 */
-	private $consumer_count;
+    /**
+     * @var AMQPConnection
+     */
+    private $connection;
 
-	/**
-	 * Maximum number of consumers to maintain
-	 * @var int
-	 */
-	private $consumer_max = 3;
+    /**
+     * @var AMQPChannel
+     */
+    private $channel;
 
-	/**
-	 * URL to call when consuming a queue message
-	 * @var string
-	 */
-	private $consumer_url = null;
+    /**
+     * Current consumer count for the queue
+     * @var int
+     */
+    private $consumer_count;
 
-	/**
-	 * Rabbit MQ server details
-	 * @var string
-	 */
-	private $host = 'localhost';
+    /**
+     * Maximum number of consumers to maintain
+     * @var int
+     */
+    private $consumer_max = 3;
 
-	/**
-	 * @var int
-	 */
-	private $port = 5672;
+    /**
+     * URL to call when consuming a queue message
+     * @var string
+     */
+    private $consumer_url = null;
 
-	/**
-	 * @var string
-	 */
-	private $user = 'guest';
+    /**
+     * Rabbit MQ server details
+     * @var string
+     */
+    private $host = 'localhost';
 
-	/**
-	 * @var string
-	 */
-	private $pass = 'guest';
+    /**
+     * @var int
+     */
+    private $port = 5672;
 
-	/**
-	 * Timeout in seconds
-	 * @var int
-	 */
-	private $ttl = 120;
+    /**
+     * @var string
+     */
+    private $user = 'guest';
 
-	/**
-	 * @var null
-	 */
-	private $consumer_start = null;
+    /**
+     * @var string
+     */
+    private $pass = 'guest';
 
-	/**
-	 * Variables we post to our consumer processor
-	 * @var array
-	 */
-	private $consumer_post = array();
+    /**
+     * Timeout in seconds
+     * @var int
+     */
+    private $ttl = 120;
 
-	/**
-	 * @var HttpRequest
-	 */
-	private $httpRequest;
+    /**
+     * @var null
+     */
+    private $consumer_start = null;
 
-	/**
-	 * @param string      $queue
-	 */
-	public function start($queue, HttpRequest $httpRequest)
-	{
-		$this->queue = $queue;
-		$this->httpRequest = $httpRequest;
+    /**
+     * Variables we post to our consumer processor
+     * @var array
+     */
+    private $consumer_post = array();
 
-		$this->connection = new AMQPStreamConnection($this->host, $this->port, $this->user, $this->pass);
-		$this->channel    = $this->connection->channel();
+    /**
+     * @var HttpRequest
+     */
+    private $httpRequest;
 
-		list(, , $consumer_count) = $this->channel->queue_declare($this->queue, false, false, false, false);
-		$this->consumer_count = $consumer_count;
-	}
+    /**
+     * @param string $queue
+     * @param HttpRequest $httpRequest
+     */
+    public function start($queue, HttpRequest $httpRequest)
+    {
+        $this->queue = $queue;
+        $this->httpRequest = $httpRequest;
 
-	/**
-	 * @param string $message
-	 */
-	public function produce($message)
-	{
-		$message = new AMQPMessage($message);
-		$this->channel->basic_publish($message, '', $this->queue);
-	}
+        $this->connection = new AMQPConnection($this->host, $this->port, $this->user, $this->pass);
+        $this->channel = $this->connection->channel();
 
-	/**
-	 * Listener for the queue
-	 * @param string $consumer_url
-	 * @param array  $post_vars
-	 */
-	public function consume($consumer_url, $post_vars = array())
-	{
-		$this->consumer_url  = $consumer_url;
-		$this->consumer_post = $post_vars;
+        list(, , $consumer_count) = $this->channel->queue_declare($this->queue, false, false, false, false);
+        $this->consumer_count = $consumer_count;
+    }
 
-		if ($this->consumer_count < $this->consumer_max)
-		{
-			$this->consumer_start = time();
+    /**
+     * @param string $message
+     */
+    public function produce($message)
+    {
+        $message = new AMQPMessage($message);
+        $this->channel->basic_publish($message, '', $this->queue);
+    }
 
-			$callback = function (AMQPMessage $message)
-			{
-				$post_vars            = $this->consumer_post;
-				$post_vars['url']     = $this->consumer_url;
-				$post_vars['queue']   = $this->queue;
-				$post_vars['message'] = $message->body;
+    /**
+     * Listener for the queue
+     * @param string $consumer_url
+     * @param array $post_vars
+     */
+    public function consume($consumer_url, $post_vars = array())
+    {
+        $this->consumer_url = $consumer_url;
+        $this->consumer_post = $post_vars;
 
-				$response = $this->httpRequest->post($this->consumer_url, $post_vars);
-				$code = $this->httpRequest->statusCode();
+        if ($this->consumer_count < $this->consumer_max)
+        {
+            $this->consumer_start = time();
 
-				if ($code == 200)
-				{
-					$message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
-				}
-				else
-				{
-					// log the error to a file
-					$log_message = $code . "\n\n";
-					$log_message .= $message->body . "\n\n";
-					$log_message .= print_r($message, true);
-					$log_message .= "\n\n\n";
-					$log_message .= print_r($response, true);
-					Log::error($log_message);
-				}
+            $callback = function (AMQPMessage $message)
+            {
+                $post_vars = $this->consumer_post;
+                $post_vars['url'] = $this->consumer_url;
+                $post_vars['queue'] = $this->queue;
+                $post_vars['message'] = $message->body;
 
-				if (($this->consumer_start + $this->ttl) < time())
-				{
-					$this->channel->basic_cancel($message->delivery_info['consumer_tag']);
-				}
-			};
+                $response = $this->httpRequest->post($this->consumer_url, $post_vars);
+                $code = $this->httpRequest->statusCode();
 
-			$this->channel->basic_consume($this->queue, '', false, false, false, false, $callback);
+                if ($code == 200)
+                {
+                    $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
+                }
+                else
+                {
+                    // log the error to a file
+                    $log_message = $code . "\n\n";
+                    $log_message .= $message->body . "\n\n";
+                    $log_message .= print_r($message, true);
+                    $log_message .= "\n\n\n";
+                    $log_message .= print_r($response, true);
+                    Log::error($log_message);
+                }
 
-			while (count($this->channel->callbacks))
-			{
-				$this->channel->wait();
-			}
-		}
-	}
+                if (($this->consumer_start + $this->ttl) < time())
+                {
+                    $this->channel->basic_cancel($message->delivery_info['consumer_tag']);
+                }
+            };
 
-	/**
-	 * Close the connection
-	 */
-	public function end()
-	{
-		$this->channel->close();
-		$this->connection->close();
-	}
+            $this->channel->basic_consume($this->queue, '', false, false, false, false, $callback);
+
+            while (count($this->channel->callbacks))
+            {
+                $this->channel->wait();
+            }
+        }
+    }
+
+    /**
+     * Close the connection
+     */
+    public function end()
+    {
+        $this->channel->close();
+        $this->connection->close();
+    }
 
 }
