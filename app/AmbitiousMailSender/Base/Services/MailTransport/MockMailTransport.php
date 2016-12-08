@@ -12,7 +12,7 @@ class MockMailTransport extends AbstractMailTransport implements MailTransport {
 	 * @param Campaign           $campaign
 	 * @param CampaignEmail      $campaignEmail
 	 * @param CampaignRepository $campaignRepository
-	 * @return array
+	 * @return boolean
 	 */
 	public function send(Campaign $campaign, CampaignEmail $campaignEmail, CampaignRepository $campaignRepository = null)
 	{
@@ -24,6 +24,6 @@ class MockMailTransport extends AbstractMailTransport implements MailTransport {
 		$vars['html']       = $this->insertVariables($campaign->html(), $campaignEmail->variables());
 		$vars['o:campaign'] = $campaign->remoteCampaignId();
 
-		return $vars;
+		return true;
 	}
 }

@@ -27,8 +27,9 @@ class EmailsController extends QueueConsumerController {
 		if (!$message)
 		{
 			// this is for debugging
-			$campaignId = 72;
-			$emailsToSend = 1;
+            //{"campaignId":"5","emailsToSend":5}
+			$campaignId = 5;
+			$emailsToSend = 5;
 		}
 		else
 		{
@@ -65,11 +66,11 @@ class EmailsController extends QueueConsumerController {
 		Log::info('Sent/Failed : ' . $done . '/' . $failed);
 
 		// create a new consumer to replace the one we just used
-		$requestData = [
+		/*$requestData = [
 			'url'        => Route('queueConsumerEmailSend'),
 			'queue_name' => 'AmbitiousMailSenderEmailSend'
 		];
-		$httpRequest->post(Route('queueConsumerSetup'), $requestData, 1, true, false);
+		$httpRequest->post(Route('queueConsumerSetup'), $requestData, 1, true, false);*/
 	}
 
 }

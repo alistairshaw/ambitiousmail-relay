@@ -34,6 +34,7 @@ class CampaignEventsController extends ApiController {
 		$campaignEventRepository->setDomain($campaign->getFromEmailDomain());
 		$campaignStats = $campaignEventRepository->search($params, $limit, $offset);
 
+
 		$final = [];
 		foreach ($campaignStats as $entry)
 		{
