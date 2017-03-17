@@ -2,6 +2,7 @@
 
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use App\AmbitiousMailSender\CampaignEvents\CampaignEventRepository;
+use League\Flysystem\Exception;
 use Request;
 
 class CampaignEventsController extends ApiController {
@@ -32,14 +33,19 @@ class CampaignEventsController extends ApiController {
 		$params['count'] = Request::get('count', false);
 
 		$campaignEventRepository->setDomain($campaign->getFromEmailDomain());
-		$campaignStats = $campaignEventRepository->search($params, $limit, $offset);
 
-
-		$final = [];
-		foreach ($campaignStats as $entry)
-		{
-			$final[] = $entry->toArray();
-		}
+        $final = [];
+        try {
+            $campaignStats = $campaignEventRepository->search($params, $limit, $offset);
+            foreach ($campaignStats as $entry)
+            {
+                $final[] = $entry->toArray();
+            }
+        }
+        catch (Exception $e)
+        {
+            // just return nothing if it errors
+        }
 
 		return $this->success($final);
 	}
