@@ -66,11 +66,11 @@ class EmailsController extends QueueConsumerController {
 		Log::info('Sent/Failed : ' . $done . '/' . $failed);
 
 		// create a new consumer to replace the one we just used
-		/*$requestData = [
+		$requestData = [
 			'url'        => Route('queueConsumerEmailSend'),
 			'queue_name' => 'AmbitiousMailSenderEmailSend'
 		];
-		$httpRequest->post(Route('queueConsumerSetup'), $requestData, 1, true, false);*/
+		$httpRequest->post(Route('queueConsumerSetup'), $requestData, 1, true, false);
 	}
 
 }
