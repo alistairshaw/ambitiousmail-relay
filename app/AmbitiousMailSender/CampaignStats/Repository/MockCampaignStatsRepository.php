@@ -12,12 +12,12 @@ class MockCampaignStatsRepository implements CampaignStatsRepository {
      */
     public function find($id)
     {
-        $data['clicked'] = 0;
-        $data['opened'] = 0;
-        $data['submitted'] = 0;
+        $data['clicked'] = 3;
+        $data['opened'] = 2;
+        $data['submitted'] = 4;
         $data['unsubscribed'] = 0;
         $data['bounced'] = 0;
-        $data['delivered'] = 0;
+        $data['delivered'] = 4;
         $data['complained'] = 0;
         $data['dropped'] = 0;
 
