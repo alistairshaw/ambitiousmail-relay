@@ -35,7 +35,7 @@ class RabbitMQQueue implements Queue {
      * Maximum number of consumers to maintain
      * @var int
      */
-    private $consumer_max = 3;
+    private $consumer_max = 1; // Cannot currently increase above 1
 
     /**
      * URL to call when consuming a queue message
