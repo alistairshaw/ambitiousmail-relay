@@ -1,7 +1,7 @@
 {
   "name": "alistairshaw/ambitiousmail-relay",
   "description": "Email marketing relay for consistent API regardless of provider",
-  "version": "1.0.0.1",
+  "version": "1.0.1.2",
   "keywords": [
     "framework",
     "laravel"
