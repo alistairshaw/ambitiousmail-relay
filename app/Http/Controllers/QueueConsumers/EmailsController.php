@@ -21,15 +21,12 @@ class EmailsController extends QueueConsumerController {
 		CampaignEmailRepository $campaignEmailRepository,
 		MailTransport $mailTransport
 	) {
-		$message = Request::input('message');
+		$message = Request::input('message'); // {"campaignId":"5","emailsToSend":5}
 		$msg     = json_decode($message);
 
 		if (!$message)
 		{
-			// this is for debugging
-            //{"campaignId":"5","emailsToSend":5}
-			$campaignId = 5;
-			$emailsToSend = 5;
+			Log::error('No message for queue consumer');
 		}
 		else
 		{
