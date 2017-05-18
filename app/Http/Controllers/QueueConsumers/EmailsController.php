@@ -21,15 +21,12 @@ class EmailsController extends QueueConsumerController {
 		CampaignEmailRepository $campaignEmailRepository,
 		MailTransport $mailTransport
 	) {
-		$message = Request::input('message');
+		$message = Request::input('message'); // {"campaignId":"5","emailsToSend":5}
 		$msg     = json_decode($message);
 
 		if (!$message)
 		{
-			// this is for debugging
-            //{"campaignId":"5","emailsToSend":5}
-			$campaignId = 5;
-			$emailsToSend = 5;
+			Log::error('No message for queue consumer');
 		}
 		else
 		{
@@ -66,11 +63,11 @@ class EmailsController extends QueueConsumerController {
 		Log::info('Sent/Failed : ' . $done . '/' . $failed);
 
 		// create a new consumer to replace the one we just used
-		/*$requestData = [
+		$requestData = [
 			'url'        => Route('queueConsumerEmailSend'),
 			'queue_name' => 'AmbitiousMailSenderEmailSend'
 		];
-		$httpRequest->post(Route('queueConsumerSetup'), $requestData, 1, true, false);*/
+		$httpRequest->post(Route('queueConsumerSetup'), $requestData, 1, true, false);
 	}
 
 }
