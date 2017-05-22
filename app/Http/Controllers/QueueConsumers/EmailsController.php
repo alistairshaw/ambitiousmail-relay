@@ -22,21 +22,23 @@ class EmailsController extends QueueConsumerController {
 		MailTransport $mailTransport
 	) {
 		$message = Request::input('message'); // {"campaignId":"5","emailsToSend":5}
-		$msg     = json_decode($message);
+
+        Log::info('Campaign message received ' . $message);
+		$msg = json_decode($message);
 
 		if (!$message)
 		{
 			Log::error('No message for queue consumer');
+			exit();
 		}
 		else
 		{
 			$campaignId   = $msg->campaignId;
 			$emailsToSend = $msg->emailsToSend;
-		}
+            Log::info('Email Sending Queue Consumer - Campaign: ' . $campaignId);
+        }
 
-		Log::info('Email Sending Queue Consumer - Campaign: ' . $campaignId);
-
-		$done = 0;
+        $done = 0;
 		$failed = 0;
 		if ($campaign = $campaignRepository->find($campaignId))
 		{
@@ -44,8 +46,11 @@ class EmailsController extends QueueConsumerController {
 				'campaign_id'=>$campaignId,
 				'failed'=>0
 			];
-			$emails = $campaignEmailRepository->search($searchParams, $emailsToSend);
-			foreach ($emails as $email)
+
+            $emails = $campaignEmailRepository->search($searchParams, $emailsToSend);
+
+            Log::info('Found Campaign ' . $campaignId . ' with ' . count($emails) . ' email addresses');
+            foreach ($emails as $email)
 			{
 				$success = $mailTransport->send($campaign, $email, $campaignRepository);
 				if ($success)
@@ -59,8 +64,13 @@ class EmailsController extends QueueConsumerController {
 					$campaignEmailRepository->save($email->fail());
 				}
 			}
+
+            Log::info('Sent/Failed : ' . $done . '/' . $failed);
 		}
-		Log::info('Sent/Failed : ' . $done . '/' . $failed);
+		else
+        {
+            Log::info('No such campaign ' . $campaignId);
+        }
 
 		// create a new consumer to replace the one we just used
 		$requestData = [
