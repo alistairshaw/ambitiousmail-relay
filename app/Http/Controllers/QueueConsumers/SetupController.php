@@ -9,8 +9,8 @@ class SetupController extends Controller {
 
 	function index(Queue $queue, HttpRequest $httpRequest)
 	{
-		$url = Request::input('url');
-		$queueName = Request::input('queue_name');
+		$url = Request::input('url', Route('queueConsumerEmailSend'));
+		$queueName = Request::input('queue_name', 'AmbitiousMailSenderEmailSend');
 
 		if (!$url || !$queueName) exit('Invalid Queue or URL');
 
