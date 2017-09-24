@@ -1,8 +1,9 @@
 <?php namespace App\Http\Controllers\ApiV1;
 
+use App\AmbitiousMailSender\Base\Exceptions\MailgunApiFailureException;
+use App\AmbitiousMailSender\CampaignEvents\CampaignEvent;
 use App\AmbitiousMailSender\Campaigns\CampaignRepository;
 use App\AmbitiousMailSender\CampaignEvents\CampaignEventRepository;
-use League\Flysystem\Exception;
 use Request;
 
 class CampaignEventsController extends ApiController {
@@ -39,10 +40,11 @@ class CampaignEventsController extends ApiController {
             $campaignStats = $campaignEventRepository->search($params, $limit, $offset);
             foreach ($campaignStats as $entry)
             {
+                /** @var CampaignEvent $entry */
                 $final[] = $entry->toArray();
             }
         }
-        catch (Exception $e)
+        catch (MailgunApiFailureException $e)
         {
             // just return nothing if it errors
         }
