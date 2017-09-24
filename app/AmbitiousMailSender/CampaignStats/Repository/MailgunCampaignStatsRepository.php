@@ -1,10 +1,8 @@
 <?php namespace App\AmbitiousMailSender\CampaignStats\Repository;
 
 use App\AmbitiousMailSender\Base\Repository\AbstractMailgunRepository;
-use App\AmbitiousMailSender\Base\ValueObjects\Collection;
 use App\AmbitiousMailSender\CampaignStats\CampaignStats;
 use App\AmbitiousMailSender\CampaignStats\CampaignStatsRepository;
-use Config;
 use Mailgun\Mailgun;
 
 class MailgunCampaignStatsRepository extends AbstractMailgunRepository implements CampaignStatsRepository {
